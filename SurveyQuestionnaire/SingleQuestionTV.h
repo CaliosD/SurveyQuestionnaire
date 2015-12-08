@@ -15,4 +15,6 @@
  */
 @property (nonatomic, strong) id model;
 
+@property (nonatomic, assign) QuestionType questionType;
+
 @end

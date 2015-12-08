@@ -53,15 +53,16 @@
     return self;
 }
 
-//- (void)layoutSublayersOfLayer:(CALayer *)layer
-//{
-//    [super layoutSublayersOfLayer:layer];
-//}
+- (void)layoutSublayersOfLayer:(CALayer *)layer
+{
+    [super layoutSublayersOfLayer:layer];
+}
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    _titleLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.bounds);
+    NSInteger offset = (_total > 0) ? 50 : 0;
+    _titleLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.bounds) - offset;
     [super layoutSubviews];
 }
 
@@ -69,15 +70,15 @@
 {
     if (!self.didSetupConstraints) {
         
-        [_titleLabel autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(12, 12, 12, 0) excludingEdge:ALEdgeRight];
-        
-        [_currentPageLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:_titleLabel withOffset:12];
-        [_totalPageLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:_currentPageLabel];
-        [_totalPageLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:12];
-        [_totalPageLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:15];
-        [@[_currentPageLabel,_totalPageLabel] autoSetViewsDimension:ALDimensionWidth toSize:24];
-        [@[_currentPageLabel,_totalPageLabel] autoAlignViewsToEdge:ALEdgeBottom];
-        
+        if (_total > 0) {
+            [_currentPageLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:_titleLabel withOffset:12];
+            [_totalPageLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:_currentPageLabel];
+            [_totalPageLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:12];
+            [_totalPageLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:15];
+            [@[_currentPageLabel,_totalPageLabel] autoSetViewsDimension:ALDimensionWidth toSize:24];
+            [@[_currentPageLabel,_totalPageLabel] autoAlignViewsToEdge:ALEdgeBottom];
+        }
+
         [_line autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeTop];
         [_line autoSetDimension:ALDimensionHeight toSize:0.5];
         
@@ -87,6 +88,9 @@
     if (_total == 0) {
         [_titleLabel autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
     }
+    else{
+        [_titleLabel autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(12, 12, 12, 0) excludingEdge:ALEdgeRight];
+    }
     [super updateConstraints];
 }
 
@@ -95,11 +99,13 @@
     _total = total;
     _titleLabel.text = title;
     if (total == 0) {
-        _currentPageLabel.textColor = [UIColor clearColor];
-        _totalPageLabel.textColor = [UIColor clearColor];
+        _currentPageLabel.hidden = YES;
+        _totalPageLabel.hidden = YES;
     }
-    _currentPageLabel.text = @"1";
-    _totalPageLabel.text = [NSString stringWithFormat:@"/%ld",(long)total];
+    else{
+        _currentPageLabel.text = @"1";
+        _totalPageLabel.text = [NSString stringWithFormat:@"/%ld",(long)total];
+    }
     
     [self setNeedsUpdateConstraints];
     [self updateConstraintsIfNeeded];

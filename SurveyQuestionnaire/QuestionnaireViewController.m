@@ -153,7 +153,6 @@
     if (!_carousel) {
         
         _carousel = [iCarousel newAutoLayoutView];
-//        _carousel = [[iCarousel alloc] initWithFrame:CGRectMake(12, 118 + 64, 351, 537)];
         _carousel.backgroundColor = [UIColor redColor];
         _carousel.centerItemWhenSelected = YES;
         _carousel.type = iCarouselTypeLinear;
@@ -223,6 +222,7 @@
 
     if (_questionnaire && _questionnaire.questions.count > 0) {
         tableView.model = [_questionnaire.questions objectAtIndex:index];
+        tableView.questionType = [[_questionnaire.questions objectAtIndex:index] questionType];
         [tableView reloadData];
     }
 

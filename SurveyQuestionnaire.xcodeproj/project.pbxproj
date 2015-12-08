@@ -11,6 +11,7 @@
 		EE055F531C1167C100BD2937 /* AnswerSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE055F521C1167C100BD2937 /* AnswerSheetViewController.m */; };
 		EE055F561C11687600BD2937 /* AnswerSheetCV.m in Sources */ = {isa = PBXBuildFile; fileRef = EE055F551C11687600BD2937 /* AnswerSheetCV.m */; };
 		EE055F591C116B2E00BD2937 /* SingleAnswerCVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE055F581C116B2E00BD2937 /* SingleAnswerCVCell.m */; };
+		EE2A46F31C167F3800535932 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = EE2A46F21C167F3800535932 /* README.md */; };
 		EE6A9C8B1C0E915000022526 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A9C8A1C0E915000022526 /* main.m */; };
 		EE6A9C8E1C0E915000022526 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A9C8D1C0E915000022526 /* AppDelegate.m */; };
 		EE6A9C941C0E915000022526 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE6A9C921C0E915000022526 /* Main.storyboard */; };
@@ -76,6 +77,7 @@
 		EE055F551C11687600BD2937 /* AnswerSheetCV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnswerSheetCV.m; sourceTree = "<group>"; };
 		EE055F571C116B2E00BD2937 /* SingleAnswerCVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleAnswerCVCell.h; sourceTree = "<group>"; };
 		EE055F581C116B2E00BD2937 /* SingleAnswerCVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleAnswerCVCell.m; sourceTree = "<group>"; };
+		EE2A46F21C167F3800535932 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		EE6A9C861C0E915000022526 /* SurveyQuestionnaire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SurveyQuestionnaire.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE6A9C8A1C0E915000022526 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EE6A9C8C1C0E915000022526 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 		EE6A9C7D1C0E915000022526 = {
 			isa = PBXGroup;
 			children = (
+				EE2A46F21C167F3800535932 /* README.md */,
 				EE6A9C881C0E915000022526 /* SurveyQuestionnaire */,
 				EE6A9CA21C0E915000022526 /* SurveyQuestionnaireTests */,
 				EE6A9CAD1C0E915000022526 /* SurveyQuestionnaireUITests */,
@@ -559,6 +562,7 @@
 				EE6A9CF71C0E9AC400022526 /* NSArray+PureLayout.m in Sources */,
 				EE6A9CE11C0E972600022526 /* MJPropertyKey.m in Sources */,
 				EE055F531C1167C100BD2937 /* AnswerSheetViewController.m in Sources */,
+				EE2A46F31C167F3800535932 /* README.md in Sources */,
 				EE6A9CBE1C0E92C300022526 /* SingleOptionTVCell.m in Sources */,
 				EE7257B41C158643008CD865 /* UITableView+FDTemplateLayoutCell.m in Sources */,
 				EE6A9CC41C0E963800022526 /* SingleQuestionModel.m in Sources */,
