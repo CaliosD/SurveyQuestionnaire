@@ -11,6 +11,11 @@
 		EE055F531C1167C100BD2937 /* AnswerSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE055F521C1167C100BD2937 /* AnswerSheetViewController.m */; };
 		EE055F561C11687600BD2937 /* AnswerSheetCV.m in Sources */ = {isa = PBXBuildFile; fileRef = EE055F551C11687600BD2937 /* AnswerSheetCV.m */; };
 		EE055F591C116B2E00BD2937 /* SingleAnswerCVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE055F581C116B2E00BD2937 /* SingleAnswerCVCell.m */; };
+		EE2A46F71C16BBC300535932 /* OptionCVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2A46F61C16BBC300535932 /* OptionCVCell.m */; };
+		EE2A46FA1C16BF5A00535932 /* QuestionCVHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2A46F91C16BF5A00535932 /* QuestionCVHeader.m */; };
+		EE2A46FD1C16C2A500535932 /* QuestionnaireCV.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2A46FC1C16C2A500535932 /* QuestionnaireCV.m */; };
+		EE2A47001C16CC4000535932 /* StickyHeaderFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2A46FF1C16CC4000535932 /* StickyHeaderFlowLayout.m */; };
+		EE2A47031C17BFB500535932 /* QuestionCVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2A47021C17BFB500535932 /* QuestionCVCell.m */; };
 		EE6A9C8B1C0E915000022526 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A9C8A1C0E915000022526 /* main.m */; };
 		EE6A9C8E1C0E915000022526 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A9C8D1C0E915000022526 /* AppDelegate.m */; };
 		EE6A9C941C0E915000022526 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE6A9C921C0E915000022526 /* Main.storyboard */; };
@@ -76,6 +81,16 @@
 		EE055F551C11687600BD2937 /* AnswerSheetCV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnswerSheetCV.m; sourceTree = "<group>"; };
 		EE055F571C116B2E00BD2937 /* SingleAnswerCVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleAnswerCVCell.h; sourceTree = "<group>"; };
 		EE055F581C116B2E00BD2937 /* SingleAnswerCVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleAnswerCVCell.m; sourceTree = "<group>"; };
+		EE2A46F51C16BBC300535932 /* OptionCVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionCVCell.h; sourceTree = "<group>"; };
+		EE2A46F61C16BBC300535932 /* OptionCVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionCVCell.m; sourceTree = "<group>"; };
+		EE2A46F81C16BF5A00535932 /* QuestionCVHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionCVHeader.h; sourceTree = "<group>"; };
+		EE2A46F91C16BF5A00535932 /* QuestionCVHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionCVHeader.m; sourceTree = "<group>"; };
+		EE2A46FB1C16C2A500535932 /* QuestionnaireCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionnaireCV.h; sourceTree = "<group>"; };
+		EE2A46FC1C16C2A500535932 /* QuestionnaireCV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionnaireCV.m; sourceTree = "<group>"; };
+		EE2A46FE1C16CC4000535932 /* StickyHeaderFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickyHeaderFlowLayout.h; sourceTree = "<group>"; };
+		EE2A46FF1C16CC4000535932 /* StickyHeaderFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickyHeaderFlowLayout.m; sourceTree = "<group>"; };
+		EE2A47011C17BFB500535932 /* QuestionCVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionCVCell.h; sourceTree = "<group>"; };
+		EE2A47021C17BFB500535932 /* QuestionCVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionCVCell.m; sourceTree = "<group>"; };
 		EE6A9C861C0E915000022526 /* SurveyQuestionnaire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SurveyQuestionnaire.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE6A9C8A1C0E915000022526 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EE6A9C8C1C0E915000022526 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -213,16 +228,20 @@
 		EE055F4F1C11677400BD2937 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				EEF8BFD11C0FE13700F9DB02 /* QuestionnaireTitleView.h */,
-				EEF8BFD21C0FE13700F9DB02 /* QuestionnaireTitleView.m */,
+				EE2A46F51C16BBC300535932 /* OptionCVCell.h */,
+				EE2A46F61C16BBC300535932 /* OptionCVCell.m */,
+				EE2A46F81C16BF5A00535932 /* QuestionCVHeader.h */,
+				EE2A46F91C16BF5A00535932 /* QuestionCVHeader.m */,
+				EE2A46FB1C16C2A500535932 /* QuestionnaireCV.h */,
+				EE2A46FC1C16C2A500535932 /* QuestionnaireCV.m */,
 				EE6A9CFA1C0EC92B00022526 /* SingleQuestionTV.h */,
 				EE6A9CFB1C0EC92B00022526 /* SingleQuestionTV.m */,
+				EE2A47011C17BFB500535932 /* QuestionCVCell.h */,
+				EE2A47021C17BFB500535932 /* QuestionCVCell.m */,
+				EEF8BFD11C0FE13700F9DB02 /* QuestionnaireTitleView.h */,
+				EEF8BFD21C0FE13700F9DB02 /* QuestionnaireTitleView.m */,
 				EE6A9CBC1C0E92C300022526 /* SingleOptionTVCell.h */,
 				EE6A9CBD1C0E92C300022526 /* SingleOptionTVCell.m */,
-				EE055F541C11687600BD2937 /* AnswerSheetCV.h */,
-				EE055F551C11687600BD2937 /* AnswerSheetCV.m */,
-				EE055F571C116B2E00BD2937 /* SingleAnswerCVCell.h */,
-				EE055F581C116B2E00BD2937 /* SingleAnswerCVCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -236,6 +255,21 @@
 				EE055F521C1167C100BD2937 /* AnswerSheetViewController.m */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		EE2A46F41C16B96A00535932 /* .ignore */ = {
+			isa = PBXGroup;
+			children = (
+				EEF8BFCD1C0FDC1000F9DB02 /* iCarousel */,
+				EE7257A91C158643008CD865 /* UITableView-FDTemplateLayoutCell */,
+				EE055F541C11687600BD2937 /* AnswerSheetCV.h */,
+				EE055F551C11687600BD2937 /* AnswerSheetCV.m */,
+				EE055F571C116B2E00BD2937 /* SingleAnswerCVCell.h */,
+				EE055F581C116B2E00BD2937 /* SingleAnswerCVCell.m */,
+				EE2A46FE1C16CC4000535932 /* StickyHeaderFlowLayout.h */,
+				EE2A46FF1C16CC4000535932 /* StickyHeaderFlowLayout.m */,
+			);
+			name = .ignore;
 			sourceTree = "<group>";
 		};
 		EE6A9C7D1C0E915000022526 = {
@@ -270,10 +304,9 @@
 				EE055F4E1C11676C00BD2937 /* Model */,
 				EE6A9D001C0EDA8500022526 /* MockData.h */,
 				EE6A9D011C0EDA8500022526 /* MockData.m */,
-				EEF8BFCD1C0FDC1000F9DB02 /* iCarousel */,
-				EE7257A91C158643008CD865 /* UITableView-FDTemplateLayoutCell */,
 				EE6A9CEC1C0E9AC400022526 /* PureLayout */,
 				EE6A9CC51C0E972500022526 /* MJExtension */,
+				EE2A46F41C16B96A00535932 /* .ignore */,
 				EE6A9C891C0E915000022526 /* Supporting Files */,
 			);
 			path = SurveyQuestionnaire;
@@ -551,10 +584,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE6A9CE41C0E972600022526 /* NSObject+MJCoding.m in Sources */,
+				EE2A46FA1C16BF5A00535932 /* QuestionCVHeader.m in Sources */,
 				EE6A9CDE1C0E972600022526 /* MJExtensionConst.m in Sources */,
+				EE2A46F71C16BBC300535932 /* OptionCVCell.m in Sources */,
 				EE7257B21C158643008CD865 /* UITableView+FDIndexPathHeightCache.m in Sources */,
 				EE055F561C11687600BD2937 /* AnswerSheetCV.m in Sources */,
 				EE6A9CE31C0E972600022526 /* NSObject+MJClass.m in Sources */,
+				EE2A46FD1C16C2A500535932 /* QuestionnaireCV.m in Sources */,
 				EE6A9CEB1C0E983300022526 /* QuestionnaireModel.m in Sources */,
 				EE6A9CF71C0E9AC400022526 /* NSArray+PureLayout.m in Sources */,
 				EE6A9CE11C0E972600022526 /* MJPropertyKey.m in Sources */,
@@ -572,10 +608,12 @@
 				EE6A9CE21C0E972600022526 /* MJPropertyType.m in Sources */,
 				EE6A9CF81C0E9AC400022526 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				EE6A9C8E1C0E915000022526 /* AppDelegate.m in Sources */,
+				EE2A47001C16CC4000535932 /* StickyHeaderFlowLayout.m in Sources */,
 				EE6A9CE51C0E972600022526 /* NSObject+MJKeyValue.m in Sources */,
 				EE6A9CE71C0E972600022526 /* NSString+MJExtension.m in Sources */,
 				EE6A9CF61C0E9AC400022526 /* ALView+PureLayout.m in Sources */,
 				EE7257B51C158643008CD865 /* UITableView+FDTemplateLayoutCellDebug.m in Sources */,
+				EE2A47031C17BFB500535932 /* QuestionCVCell.m in Sources */,
 				EE7257B31C158643008CD865 /* UITableView+FDKeyedHeightCache.m in Sources */,
 				EE6A9C8B1C0E915000022526 /* main.m in Sources */,
 				EE6A9D021C0EDA8500022526 /* MockData.m in Sources */,

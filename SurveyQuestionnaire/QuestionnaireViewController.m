@@ -10,18 +10,16 @@
 #import "AnswerSheetViewController.h"
 
 #import "QuestionnaireTitleView.h"
-#import "SingleQuestionTV.h"
+#import "QuestionnaireCV.h"
+
 #import "QuestionnaireModel.h"
 
-#import "iCarousel.h"
-
-@interface QuestionnaireViewController ()<iCarouselDelegate,iCarouselDataSource>
+@interface QuestionnaireViewController ()<QuestionnaireCVDelegate>
 
 @property (nonatomic, strong) QuestionnaireTitleView *titleView;
 @property (nonatomic, strong) UIButton *prevButton;
 @property (nonatomic, strong) UIButton *nextButton;
-@property (nonatomic, strong) iCarousel *carousel;
-@property (nonatomic, strong) SingleQuestionTV *questionTV;
+@property (nonatomic, strong) QuestionnaireCV *questionCV;
 
 @property (nonatomic, strong) QuestionnaireModel *questionnaire;
 @property (nonatomic, strong) NSMutableArray *answerArray;
@@ -49,21 +47,45 @@
         
         // larry3d, ogre, puffy,
         [self.view addSubview:self.titleView];
-        [self.view addSubview:self.carousel];
+        [self.view addSubview:self.questionCV];
         
-        [self.view setNeedsUpdateConstraints];
     }
+    else{
+        self.view = [UIView new];
+        self.view.backgroundColor = [UIColor whiteColor];
+        
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.itemSize = CGSizeMake(1024, 300);
+        layout.minimumInteritemSpacing = 1.f;
+        layout.minimumLineSpacing = 1.f;
+        layout.headerReferenceSize = CGSizeMake(1024, 80);
+        
+        _questionCV = [[QuestionnaireCV alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        _questionCV.showsHorizontalScrollIndicator = NO;
+        _questionCV.cvDelegate = self;
+
+        [self.view addSubview:_questionCV];
+    }
+    
+    [self.view setNeedsUpdateConstraints];
+
 }
 
 - (void)updateViewConstraints
 {
     if (!self.didSetupConstraints) {
         
-        [self.titleView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(64, 0, 0, 0) excludingEdge:ALEdgeBottom];
+        if (isiPhone) {
+            [self.titleView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(64, 0, 0, 0) excludingEdge:ALEdgeBottom];
+            
+            [self.questionCV autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.titleView withOffset:0];
+            [self.questionCV autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeTop];
 
-        [self.carousel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.titleView withOffset:12];
-        [self.carousel autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 12, 0) excludingEdge:ALEdgeTop];
-
+        }
+        else{
+            [_questionCV autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(64, 0, 0, 0)];
+        }
+        
         self.didSetupConstraints = YES;
     }
     
@@ -93,9 +115,6 @@
         [titleView addSubview:_nextButton];
         self.navigationItem.titleView = titleView;
     }
-    else{
-        [self.view addSubview:self.questionTV];
-    }
     
     self.automaticallyAdjustsScrollViewInsets = NO;
   
@@ -108,22 +127,27 @@
     [self requestForQuestionnaireData];
 }
 
+- (void)viewWillLayoutSubviews
+{
+    [self.questionCV.collectionViewLayout invalidateLayout];
+}
+
 #pragma mark - Actions
 
 - (void)prevButtonPressed
 {
-    NSInteger index = _carousel.currentItemIndex;
-    if (index > 0 && index < _questionnaire.questions.count) {
-        [_carousel scrollToItemAtIndex:index - 1 animated:YES];
-    }
+//    NSInteger index = _carousel.currentItemIndex;
+//    if (index > 0 && index < _questionnaire.questions.count) {
+//        [_carousel scrollToItemAtIndex:index - 1 animated:YES];
+//    }
 }
 
 - (void)nextButtonPressed
 {
-    NSInteger index = _carousel.currentItemIndex;
-    if (index >= 0 && index < _questionnaire.questions.count - 1) {
-        [_carousel scrollToItemAtIndex:index + 1 animated:YES];
-    }
+//    NSInteger index = _carousel.currentItemIndex;
+//    if (index >= 0 && index < _questionnaire.questions.count - 1) {
+//        [_carousel scrollToItemAtIndex:index + 1 animated:YES];
+//    }
 }
 
 - (void)answerSheetItemPressed
@@ -148,30 +172,23 @@
     return _titleView;
 }
 
-- (iCarousel *)carousel
+- (QuestionnaireCV *)questionCV
 {
-    if (!_carousel) {
-        
-        _carousel = [iCarousel newAutoLayoutView];
-//        _carousel = [[iCarousel alloc] initWithFrame:CGRectMake(12, 118 + 64, 351, 537)];
-        _carousel.backgroundColor = [UIColor redColor];
-        _carousel.centerItemWhenSelected = YES;
-        _carousel.type = iCarouselTypeLinear;
-        _carousel.userInteractionEnabled = YES;
-        _carousel.delegate = self;
-        _carousel.dataSource = self;
-        _carousel.pagingEnabled = YES;
-        _carousel.bounces = NO;
-    }
-    return _carousel;
-}
+    if (!_questionCV) {
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        layout.minimumInteritemSpacing = 1.f;
+        layout.minimumLineSpacing = 1.f;
+        layout.headerReferenceSize = CGSizeZero;
+        layout.sectionInset = UIEdgeInsetsZero;
 
-- (SingleQuestionTV *)questionTV
-{
-    if (!_questionTV) {
-        _questionTV = [[SingleQuestionTV alloc] initWithFrame:CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 64) style:UITableViewStylePlain];
+        _questionCV = [[QuestionnaireCV alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        _questionCV.translatesAutoresizingMaskIntoConstraints = NO;
+        _questionCV.pagingEnabled = YES;
+        _questionCV.showsHorizontalScrollIndicator = NO;
+        _questionCV.cvDelegate = self;
     }
-    return _questionTV;
+    return _questionCV;
 }
 
 #pragma mark - Networking
@@ -188,62 +205,23 @@
     }
     
     if (isiPhone) {
-
         [self.titleView configureTitleViewWithText:_questionnaire.questionnaireTitle totalPage:_questionnaire.questions.count];
-        [self.carousel reloadData];
+        self.questionCV.itemHeight = self.view.frame.size.height - [self.titleView getTitleViewHeight] - 64;
     }
     else{
         [self setTitle:_questionnaire.questionnaireTitle];
-        self.questionTV.model = _questionnaire.questions;
-        [self.questionTV reloadData];
     }
+    
+    self.questionCV.questions = _questionnaire.questions;
+    [self.questionCV reloadData];
+
 }
 
-# pragma mark - iCarousel methods
+#pragma mark - QuestionnaireCVDelegate
 
-- (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel
+- (void)updateCurrentIndex:(NSInteger)index
 {
-    return _questionnaire.questions.count;
-}
-
-- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view
-{
-    CGFloat titleHeight = [_questionnaire.questionnaireTitle boundingRectWithSize:CGSizeMake(self.view.frame.size.width - 60, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size.height;
-    SingleQuestionTV *tableView = nil;
-    if (view == nil) {
-        CGRect frame = CGRectMake(0, 0, self.carousel.frame.size.width, self.view.frame.size.height - titleHeight - 24 - 64);
-        view = [[UIView alloc] initWithFrame:frame];
-        tableView = [[SingleQuestionTV alloc] initWithFrame:frame style:UITableViewStylePlain];
-        tableView.tag = 18;
-        [view addSubview:tableView];
-    }
-    else{
-        tableView = (SingleQuestionTV *)[view viewWithTag:18];
-    }
-
-    if (_questionnaire && _questionnaire.questions.count > 0) {
-        tableView.model = [_questionnaire.questions objectAtIndex:index];
-        [tableView reloadData];
-    }
-
-    return view;
-}
-
-- (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel
-{
-    [self.titleView setCurrentPage:carousel.currentItemIndex];
-    _prevButton.enabled = (carousel.currentItemIndex == 0) ? NO : YES;
-    _nextButton.enabled = (carousel.currentItemIndex == _questionnaire.questions.count - 1) ? NO : YES;
-
-    /**
-     *  提交按钮显示条件：
-     *  - 已经到达问卷的最后一页
-     *  或 
-     *  - 全部问题都已经完成时
-     */
-    if (carousel.currentItemIndex == _questionnaire.questions.count - 1) {
-        
-    }
+    [self.titleView setCurrentPage:index];
 }
 
 @end

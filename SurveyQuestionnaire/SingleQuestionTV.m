@@ -38,11 +38,11 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return isiPhone ? 1 : [(NSArray *)_model count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return isiPhone ? [(SingleQuestionModel *)_model options].count : [[(SingleQuestionModel *)[(NSArray*)_model objectAtIndex:section] options] count];
+    return _model.options.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -89,7 +89,7 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SingleOptionTVCell * cell = (SingleOptionTVCell *)[tableView cellForRowAtIndexPath:indexPath];
-    OptionModel *option = isiPhone ? [[(SingleQuestionModel *)_model options] objectAtIndex:indexPath.row] : [[(SingleQuestionModel *)[(NSArray*)_model objectAtIndex:indexPath.section] options] objectAtIndex: indexPath.row];
+    OptionModel *option = [_model.options objectAtIndex:indexPath.row];
     option.isSelected = !option.isSelected;
     cell.option = option;
 }
@@ -107,11 +107,10 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
 
 - (void)configureCell:(SingleOptionTVCell *)cell atIndex:(NSIndexPath *)indexPath
 {
-    SingleQuestionModel * question = isiPhone ? (SingleQuestionModel *)_model : (SingleQuestionModel *)[(NSArray *)_model objectAtIndex:indexPath.section];
-    _questionType = question.questionType;
+    _questionType = _model.questionType;
     
-    OptionModel *option = [question.options objectAtIndex:indexPath.row];
-    cell.questionType = question.questionType;
+    OptionModel *option = [_model.options objectAtIndex:indexPath.row];
+    cell.questionType = _model.questionType;
     cell.option = option;
 }
 

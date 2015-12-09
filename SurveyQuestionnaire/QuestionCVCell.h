@@ -1,15 +1,18 @@
 //
-//  SingleQuestionTV.h
+//  QuestionCVCell.h
 //  SurveyQuestionnaire
 //
-//  Created by Calios on 12/2/15.
+//  Created by Calios on 12/9/15.
 //  Copyright © 2015 Calios. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 @class SingleQuestionModel;
-@interface SingleQuestionTV : UITableView
+
+extern NSString *const QuestionCVCellIdentifier;
+
+@interface QuestionCVCell : UICollectionViewCell
 
 @property (nonatomic, strong) SingleQuestionModel *model;
 
