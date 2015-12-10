@@ -12,5 +12,6 @@
 @interface SingleQuestionTV : UITableView
 
 @property (nonatomic, strong) SingleQuestionModel *model;
+@property (nonatomic, strong) NSMutableArray *answerArray;
 
 @end

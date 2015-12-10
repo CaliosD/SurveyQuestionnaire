@@ -11,10 +11,8 @@
 		EE055F531C1167C100BD2937 /* AnswerSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE055F521C1167C100BD2937 /* AnswerSheetViewController.m */; };
 		EE055F561C11687600BD2937 /* AnswerSheetCV.m in Sources */ = {isa = PBXBuildFile; fileRef = EE055F551C11687600BD2937 /* AnswerSheetCV.m */; };
 		EE055F591C116B2E00BD2937 /* SingleAnswerCVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE055F581C116B2E00BD2937 /* SingleAnswerCVCell.m */; };
-		EE2A46F71C16BBC300535932 /* OptionCVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2A46F61C16BBC300535932 /* OptionCVCell.m */; };
 		EE2A46FA1C16BF5A00535932 /* QuestionCVHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2A46F91C16BF5A00535932 /* QuestionCVHeader.m */; };
 		EE2A46FD1C16C2A500535932 /* QuestionnaireCV.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2A46FC1C16C2A500535932 /* QuestionnaireCV.m */; };
-		EE2A47001C16CC4000535932 /* StickyHeaderFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2A46FF1C16CC4000535932 /* StickyHeaderFlowLayout.m */; };
 		EE2A47031C17BFB500535932 /* QuestionCVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2A47021C17BFB500535932 /* QuestionCVCell.m */; };
 		EE6A9C8B1C0E915000022526 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A9C8A1C0E915000022526 /* main.m */; };
 		EE6A9C8E1C0E915000022526 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A9C8D1C0E915000022526 /* AppDelegate.m */; };
@@ -50,6 +48,7 @@
 		EE7257B51C158643008CD865 /* UITableView+FDTemplateLayoutCellDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7257B11C158643008CD865 /* UITableView+FDTemplateLayoutCellDebug.m */; };
 		EE8B0E961C1011EB0083AB37 /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = EE8B0E941C1011EB0083AB37 /* next.png */; };
 		EE8B0E971C1011EB0083AB37 /* prev.png in Resources */ = {isa = PBXBuildFile; fileRef = EE8B0E951C1011EB0083AB37 /* prev.png */; };
+		EE9D39D41C1916C500B108F8 /* OptionCVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9D39D31C1916C500B108F8 /* OptionCVCell.m */; };
 		EEF8BFD01C0FDC1000F9DB02 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = EEF8BFCF1C0FDC1000F9DB02 /* iCarousel.m */; };
 		EEF8BFD31C0FE13700F9DB02 /* QuestionnaireTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEF8BFD21C0FE13700F9DB02 /* QuestionnaireTitleView.m */; };
 /* End PBXBuildFile section */
@@ -82,13 +81,10 @@
 		EE055F571C116B2E00BD2937 /* SingleAnswerCVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleAnswerCVCell.h; sourceTree = "<group>"; };
 		EE055F581C116B2E00BD2937 /* SingleAnswerCVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleAnswerCVCell.m; sourceTree = "<group>"; };
 		EE2A46F51C16BBC300535932 /* OptionCVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionCVCell.h; sourceTree = "<group>"; };
-		EE2A46F61C16BBC300535932 /* OptionCVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionCVCell.m; sourceTree = "<group>"; };
 		EE2A46F81C16BF5A00535932 /* QuestionCVHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionCVHeader.h; sourceTree = "<group>"; };
 		EE2A46F91C16BF5A00535932 /* QuestionCVHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionCVHeader.m; sourceTree = "<group>"; };
 		EE2A46FB1C16C2A500535932 /* QuestionnaireCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionnaireCV.h; sourceTree = "<group>"; };
 		EE2A46FC1C16C2A500535932 /* QuestionnaireCV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionnaireCV.m; sourceTree = "<group>"; };
-		EE2A46FE1C16CC4000535932 /* StickyHeaderFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickyHeaderFlowLayout.h; sourceTree = "<group>"; };
-		EE2A46FF1C16CC4000535932 /* StickyHeaderFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickyHeaderFlowLayout.m; sourceTree = "<group>"; };
 		EE2A47011C17BFB500535932 /* QuestionCVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionCVCell.h; sourceTree = "<group>"; };
 		EE2A47021C17BFB500535932 /* QuestionCVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionCVCell.m; sourceTree = "<group>"; };
 		EE6A9C861C0E915000022526 /* SurveyQuestionnaire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SurveyQuestionnaire.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -163,6 +159,7 @@
 		EE7257B11C158643008CD865 /* UITableView+FDTemplateLayoutCellDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+FDTemplateLayoutCellDebug.m"; sourceTree = "<group>"; };
 		EE8B0E941C1011EB0083AB37 /* next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next.png; sourceTree = "<group>"; };
 		EE8B0E951C1011EB0083AB37 /* prev.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prev.png; sourceTree = "<group>"; };
+		EE9D39D31C1916C500B108F8 /* OptionCVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionCVCell.m; sourceTree = "<group>"; };
 		EEF8BFCE1C0FDC1000F9DB02 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
 		EEF8BFCF1C0FDC1000F9DB02 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		EEF8BFD11C0FE13700F9DB02 /* QuestionnaireTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionnaireTitleView.h; sourceTree = "<group>"; };
@@ -229,7 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				EE2A46F51C16BBC300535932 /* OptionCVCell.h */,
-				EE2A46F61C16BBC300535932 /* OptionCVCell.m */,
+				EE9D39D31C1916C500B108F8 /* OptionCVCell.m */,
 				EE2A46F81C16BF5A00535932 /* QuestionCVHeader.h */,
 				EE2A46F91C16BF5A00535932 /* QuestionCVHeader.m */,
 				EE2A46FB1C16C2A500535932 /* QuestionnaireCV.h */,
@@ -242,6 +239,10 @@
 				EEF8BFD21C0FE13700F9DB02 /* QuestionnaireTitleView.m */,
 				EE6A9CBC1C0E92C300022526 /* SingleOptionTVCell.h */,
 				EE6A9CBD1C0E92C300022526 /* SingleOptionTVCell.m */,
+				EE055F541C11687600BD2937 /* AnswerSheetCV.h */,
+				EE055F551C11687600BD2937 /* AnswerSheetCV.m */,
+				EE055F571C116B2E00BD2937 /* SingleAnswerCVCell.h */,
+				EE055F581C116B2E00BD2937 /* SingleAnswerCVCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -261,13 +262,6 @@
 			isa = PBXGroup;
 			children = (
 				EEF8BFCD1C0FDC1000F9DB02 /* iCarousel */,
-				EE7257A91C158643008CD865 /* UITableView-FDTemplateLayoutCell */,
-				EE055F541C11687600BD2937 /* AnswerSheetCV.h */,
-				EE055F551C11687600BD2937 /* AnswerSheetCV.m */,
-				EE055F571C116B2E00BD2937 /* SingleAnswerCVCell.h */,
-				EE055F581C116B2E00BD2937 /* SingleAnswerCVCell.m */,
-				EE2A46FE1C16CC4000535932 /* StickyHeaderFlowLayout.h */,
-				EE2A46FF1C16CC4000535932 /* StickyHeaderFlowLayout.m */,
 			);
 			name = .ignore;
 			sourceTree = "<group>";
@@ -306,6 +300,7 @@
 				EE6A9D011C0EDA8500022526 /* MockData.m */,
 				EE6A9CEC1C0E9AC400022526 /* PureLayout */,
 				EE6A9CC51C0E972500022526 /* MJExtension */,
+				EE7257A91C158643008CD865 /* UITableView-FDTemplateLayoutCell */,
 				EE2A46F41C16B96A00535932 /* .ignore */,
 				EE6A9C891C0E915000022526 /* Supporting Files */,
 			);
@@ -586,7 +581,6 @@
 				EE6A9CE41C0E972600022526 /* NSObject+MJCoding.m in Sources */,
 				EE2A46FA1C16BF5A00535932 /* QuestionCVHeader.m in Sources */,
 				EE6A9CDE1C0E972600022526 /* MJExtensionConst.m in Sources */,
-				EE2A46F71C16BBC300535932 /* OptionCVCell.m in Sources */,
 				EE7257B21C158643008CD865 /* UITableView+FDIndexPathHeightCache.m in Sources */,
 				EE055F561C11687600BD2937 /* AnswerSheetCV.m in Sources */,
 				EE6A9CE31C0E972600022526 /* NSObject+MJClass.m in Sources */,
@@ -608,7 +602,6 @@
 				EE6A9CE21C0E972600022526 /* MJPropertyType.m in Sources */,
 				EE6A9CF81C0E9AC400022526 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				EE6A9C8E1C0E915000022526 /* AppDelegate.m in Sources */,
-				EE2A47001C16CC4000535932 /* StickyHeaderFlowLayout.m in Sources */,
 				EE6A9CE51C0E972600022526 /* NSObject+MJKeyValue.m in Sources */,
 				EE6A9CE71C0E972600022526 /* NSString+MJExtension.m in Sources */,
 				EE6A9CF61C0E9AC400022526 /* ALView+PureLayout.m in Sources */,
@@ -620,6 +613,7 @@
 				EEF8BFD01C0FDC1000F9DB02 /* iCarousel.m in Sources */,
 				EE6A9CFF1C0ED8EA00022526 /* QuestionnaireViewController.m in Sources */,
 				EE6A9CE61C0E972600022526 /* NSObject+MJProperty.m in Sources */,
+				EE9D39D41C1916C500B108F8 /* OptionCVCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

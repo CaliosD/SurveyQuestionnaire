@@ -70,19 +70,18 @@
     }
     
     _optionLabel.text = _option.optionContent;
-    [self updateCheckLabel];
-    
+    [self updateWithSelected:_option.isSelected];
     
     [self setNeedsUpdateConstraints];
     [self updateConstraintsIfNeeded];
 }
 
-- (void)updateCheckLabel
+- (void)updateWithSelected:(BOOL)selected
 {
-    _optionCheckLabel.backgroundColor = _option.isSelected ? [UIColor redColor] : [UIColor whiteColor];
+    _optionCheckLabel.backgroundColor = selected ? [UIColor redColor] : [UIColor whiteColor];
     _optionCheckLabel.layer.borderWidth = 1.f;
-    _optionCheckLabel.layer.borderColor = _option.isSelected ? [UIColor redColor].CGColor : [UIColor lightGrayColor].CGColor;
-    _optionCheckLabel.textColor = _option.isSelected ? [UIColor whiteColor] : [UIColor lightGrayColor];
+    _optionCheckLabel.layer.borderColor = selected ? [UIColor redColor].CGColor : [UIColor lightGrayColor].CGColor;
+    _optionCheckLabel.textColor = selected ? [UIColor whiteColor] : [UIColor lightGrayColor];
 }
 
 @end

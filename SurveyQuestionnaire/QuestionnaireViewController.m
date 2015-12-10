@@ -17,14 +17,15 @@
 @interface QuestionnaireViewController ()<QuestionnaireCVDelegate>
 
 @property (nonatomic, strong) QuestionnaireTitleView *titleView;
-@property (nonatomic, strong) UIButton *prevButton;
-@property (nonatomic, strong) UIButton *nextButton;
-@property (nonatomic, strong) QuestionnaireCV *questionCV;
+@property (nonatomic, strong) UIButton               *prevButton;
+@property (nonatomic, strong) UIButton               *nextButton;
+@property (nonatomic, strong) QuestionnaireCV        *questionCV;
 
-@property (nonatomic, strong) QuestionnaireModel *questionnaire;
-@property (nonatomic, strong) NSMutableArray *answerArray;
+@property (nonatomic, strong) QuestionnaireModel     *questionnaire;
+@property (nonatomic, strong) NSMutableArray         *answerArray;
+@property (nonatomic, assign) NSInteger              currentItemIndex;
 
-@property (nonatomic, assign) BOOL didSetupConstraints;
+@property (nonatomic, assign) BOOL                   didSetupConstraints;
 
 @end
 
@@ -35,6 +36,7 @@
     self = [super init];
     if (self) {
         _answerArray = [NSMutableArray array];
+        _currentItemIndex = 0;
     }
     return self;
 }
@@ -66,7 +68,7 @@
 
         [self.view addSubview:_questionCV];
     }
-    
+
     [self.view setNeedsUpdateConstraints];
 
 }
@@ -104,6 +106,7 @@
         _prevButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
         [_prevButton setImage:[UIImage imageNamed:@"prev.png"] forState:UIControlStateNormal];
         [_prevButton addTarget:self action:@selector(prevButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        _prevButton.enabled = NO;
         
         _nextButton = [[UIButton alloc] initWithFrame:CGRectMake(105, 0, 25, 25)];
         [_nextButton setImage:[UIImage imageNamed:@"next.png"] forState:UIControlStateNormal];
@@ -136,18 +139,22 @@
 
 - (void)prevButtonPressed
 {
-//    NSInteger index = _carousel.currentItemIndex;
-//    if (index > 0 && index < _questionnaire.questions.count) {
-//        [_carousel scrollToItemAtIndex:index - 1 animated:YES];
-//    }
+    NSInteger index = _currentItemIndex;
+    if (index > 0 && index < _questionnaire.questions.count) {
+        _currentItemIndex = index - 1;
+        [self updateViewWithCurrentIndex:_currentItemIndex];
+        [_questionCV scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    }
 }
 
 - (void)nextButtonPressed
 {
-//    NSInteger index = _carousel.currentItemIndex;
-//    if (index >= 0 && index < _questionnaire.questions.count - 1) {
-//        [_carousel scrollToItemAtIndex:index + 1 animated:YES];
-//    }
+    NSInteger index = _currentItemIndex;
+    if (index >= 0 && index < _questionnaire.questions.count - 1) {
+        _currentItemIndex = index + 1;
+        [self updateViewWithCurrentIndex:_currentItemIndex];
+        [_questionCV scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    }
 }
 
 - (void)answerSheetItemPressed
@@ -221,7 +228,15 @@
 
 - (void)updateCurrentIndex:(NSInteger)index
 {
-    [self.titleView setCurrentPage:index];
+    _currentItemIndex = index + 1;
+    [self updateViewWithCurrentIndex:_currentItemIndex];
+}
+
+- (void)updateViewWithCurrentIndex:(NSInteger)index
+{
+    [self.titleView setCurrentPage:_currentItemIndex];
+    _nextButton.enabled = (_currentItemIndex == _questionnaire.questions.count - 1) ? NO : YES;
+    _prevButton.enabled = (_currentItemIndex == 0) ? NO : YES;
 }
 
 @end

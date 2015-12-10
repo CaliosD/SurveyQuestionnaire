@@ -12,7 +12,8 @@
 @interface SingleOptionTVCell : UITableViewCell
 
 @property (nonatomic, assign) QuestionType questionType;
-
 @property (nonatomic, strong) OptionModel *option;
+
+- (void)updateWithSelected:(BOOL)selected;
 
 @end

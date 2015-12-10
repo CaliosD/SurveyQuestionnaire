@@ -104,7 +104,7 @@
     NSInteger currentIndex = (NSInteger)scrollView.contentOffset.x/375;
 
     if ([self.cvDelegate respondsToSelector:@selector(updateCurrentIndex:)]) {
-        [self.cvDelegate updateCurrentIndex:currentIndex];
+        [self.cvDelegate updateCurrentIndex:currentIndex - 1];
     }
 }
 
