@@ -77,8 +77,8 @@
             [_totalPageLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:15];
             [@[_currentPageLabel,_totalPageLabel] autoSetViewsDimension:ALDimensionWidth toSize:24];
             [@[_currentPageLabel,_totalPageLabel] autoAlignViewsToEdge:ALEdgeBottom];
+        
         }
-
         [_line autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeTop];
         [_line autoSetDimension:ALDimensionHeight toSize:0.5];
         
@@ -114,6 +114,15 @@
 - (void)setCurrentPage:(NSInteger)index
 {
     _currentPageLabel.text = [NSString stringWithFormat:@"%ld",(long)index + 1];
+}
+
+- (CGFloat)getTitleViewHeight
+{
+    NSInteger offset = (_total > 0) ? 50 : 0;
+    CGFloat width = [[UIScreen mainScreen] bounds].size.width - offset;
+    
+    CGFloat height = [_titleLabel.text boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15.f]} context:nil].size.height;
+    return height + 24 + 1;
 }
 
 @end

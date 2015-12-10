@@ -18,5 +18,6 @@
  */
 - (void)configureTitleViewWithText:(NSString *)title totalPage:(NSInteger)total;
 - (void)setCurrentPage:(NSInteger)index;
+- (CGFloat)getTitleViewHeight;
 
 @end

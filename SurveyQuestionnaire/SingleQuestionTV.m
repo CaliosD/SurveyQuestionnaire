@@ -29,18 +29,34 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
         self.dataSource = self;
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self registerClass:[SingleOptionTVCell class] forCellReuseIdentifier:SingleQuestionTVCellIdentifier];
+        _answerArray = [NSMutableArray array];
     }
     return self;
+}
+
+- (void)setModel:(SingleQuestionModel *)model
+{
+    _model = model;
+    [_answerArray removeAllObjects];
+    /**
+     *  Init for answer array.
+     */
+    for (NSInteger i = 0; i < _model.options.count; i++) {
+        OptionModel *option = _model.options[i];
+        if (option.isSelected) {
+            [_answerArray addObject:[NSNumber numberWithInteger:i]];
+        }
+    }
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return isiPhone ? 1 : [(NSArray *)_model count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return isiPhone ? [(SingleQuestionModel *)_model options].count : [[(SingleQuestionModel *)[(NSArray*)_model objectAtIndex:section] options] count];
+    return _model.options.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -85,11 +101,37 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
 }
 
 #pragma mark - UITableViewDelegate
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SingleOptionTVCell * cell = (SingleOptionTVCell *)[tableView cellForRowAtIndexPath:indexPath];
-    OptionModel *option = isiPhone ? [[(SingleQuestionModel *)_model options] objectAtIndex:indexPath.row] : [[(SingleQuestionModel *)[(NSArray*)_model objectAtIndex:indexPath.section] options] objectAtIndex: indexPath.row];
-    option.isSelected = !option.isSelected;
-    cell.option = option;
+    OptionModel *option = [_model.options objectAtIndex:indexPath.row];
+    
+    if (_model.questionType == QuestionType_MultipleOptions) {
+        if (option.isSelected) {
+            [_answerArray removeObjectAtIndex:indexPath.row];
+        }
+        else{
+            [_answerArray addObject:[NSNumber numberWithInteger:indexPath.row]];
+        }
+        option.isSelected = !option.isSelected;
+        cell.option = option;
+    }
+    else if (_model.questionType == QuestionType_SingleOption){
+        if (_answerArray.count == 1) {
+            if (indexPath.row == [_answerArray[0] integerValue]) {
+                option.isSelected = !option.isSelected;
+            }
+            else{
+                [tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:[_answerArray[0] integerValue] inSection:0] animated:NO];
+                
+            }
+        }
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -105,11 +147,10 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
 
 - (void)configureCell:(SingleOptionTVCell *)cell atIndex:(NSIndexPath *)indexPath
 {
-    SingleQuestionModel * question = isiPhone ? (SingleQuestionModel *)_model : (SingleQuestionModel *)[(NSArray *)_model objectAtIndex:indexPath.section];
-    _questionType = question.questionType;
+    _questionType = _model.questionType;
     
-    OptionModel *option = [question.options objectAtIndex:indexPath.row];
-    cell.questionType = question.questionType;
+    OptionModel *option = [_model.options objectAtIndex:indexPath.row];
+    cell.questionType = _model.questionType;
     cell.option = option;
 }
 
@@ -134,7 +175,7 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
 - (CGFloat)headerHeightInSection:(NSInteger)section
 {
     CGFloat height = 0.f;
-    SingleQuestionModel *model = isiPhone ? (SingleQuestionModel *)_model : (SingleQuestionModel *)[(NSArray*)_model  objectAtIndex:section];
+    SingleQuestionModel *model = isiPhone ? _model : (SingleQuestionModel *)[(NSArray*)_model  objectAtIndex:section];
 
     if (model) {
         height = [model.question boundingRectWithSize:CGSizeMake(self.bounds.size.width - 50 - 12 * 3, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size.height;

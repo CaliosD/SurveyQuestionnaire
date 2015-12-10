@@ -1,16 +1,17 @@
 //
-//  SingleOptionTVCell.m
+//  OptionCVCell.m
 //  SurveyQuestionnaire
 //
-//  Created by Calios on 12/2/15.
+//  Created by Calios on 12/8/15.
 //  Copyright © 2015 Calios. All rights reserved.
 //
 
-#import "SingleOptionTVCell.h"
+#import "OptionCVCell.h"
 
-#define CheckBtnSize    20
+NSString *const OptionCVCellIdentifier = @"OptionCVCellIdentifier";
+NSInteger const CheckBtnSize = 20;
 
-@interface SingleOptionTVCell ()
+@interface OptionCVCell ()
 
 @property (nonatomic, strong) UILabel *optionCheckLabel;
 @property (nonatomic, strong) UILabel *optionLabel;
@@ -19,13 +20,12 @@
 
 @end
 
-@implementation SingleOptionTVCell
+@implementation OptionCVCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (instancetype)initWithFrame:(CGRect)frame
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    self = [super initWithFrame:frame];
     if (self) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
         _optionCheckLabel = [UILabel newAutoLayoutView];
         _optionCheckLabel.font = [UIFont systemFontOfSize:14];
         _optionCheckLabel.textAlignment = NSTextAlignmentCenter;
@@ -60,34 +60,28 @@
 - (void)setOption:(OptionModel *)option
 {
     _option = option;
-    [_optionCheckLabel setClipsToBounds:YES];
-
-    if (_questionType == QuestionType_SingleOption) {
-        _optionCheckLabel.layer.cornerRadius = CheckBtnSize/2.f;
-    }
-    else if (_questionType == QuestionType_MultipleOptions){
-        _optionCheckLabel.layer.cornerRadius = 2.f;
-    }
-    
     _optionLabel.text = _option.optionContent;
-    [self updateWithSelected:_option.isSelected];
+
+    [_optionCheckLabel setClipsToBounds:YES];
+    _optionCheckLabel.layer.cornerRadius = (_questionType == QuestionType_SingleOption) ?CheckBtnSize/2.f : 2.f;
+
+    [self updateCheckLabel];
     
     [self setNeedsUpdateConstraints];
     [self updateConstraintsIfNeeded];
 }
 
-- (void)updateWithSelected:(BOOL)selected
-{
-    [super setSelected:selected animated:animated];
-    
-}
-
 - (void)updateCheckLabel
 {
-    _optionCheckLabel.backgroundColor = selected ? [UIColor redColor] : [UIColor whiteColor];
+    [self setIsSelected:_option.isSelected];
+}
+
+- (void)setIsSelected:(BOOL)isSelected
+{
+    _optionCheckLabel.backgroundColor = isSelected ? [UIColor redColor] : [UIColor whiteColor];
     _optionCheckLabel.layer.borderWidth = 1.f;
-    _optionCheckLabel.layer.borderColor = selected ? [UIColor redColor].CGColor : [UIColor lightGrayColor].CGColor;
-    _optionCheckLabel.textColor = selected ? [UIColor whiteColor] : [UIColor lightGrayColor];
+    _optionCheckLabel.layer.borderColor = isSelected ? [UIColor redColor].CGColor : [UIColor lightGrayColor].CGColor;
+    _optionCheckLabel.textColor = isSelected ? [UIColor whiteColor] : [UIColor lightGrayColor];
 }
 
 @end
