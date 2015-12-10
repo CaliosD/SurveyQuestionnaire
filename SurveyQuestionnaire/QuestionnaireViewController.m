@@ -14,12 +14,16 @@
 
 #import "QuestionnaireModel.h"
 
-@interface QuestionnaireViewController ()<QuestionnaireCVDelegate>
+static NSInteger QuestionnaireNotDoneAlertTag = 999;
+static NSInteger QuestionnaireDoneAlertTag = 1000;
+
+@interface QuestionnaireViewController ()<QuestionnaireCVDelegate,UIAlertViewDelegate>
 
 @property (nonatomic, strong) QuestionnaireTitleView *titleView;
 @property (nonatomic, strong) UIButton               *prevButton;
 @property (nonatomic, strong) UIButton               *nextButton;
 @property (nonatomic, strong) QuestionnaireCV        *questionCV;
+@property (nonatomic, strong) UIButton               *submitButton;
 
 @property (nonatomic, strong) QuestionnaireModel     *questionnaire;
 @property (nonatomic, strong) NSMutableArray         *answersheetArray;
@@ -64,6 +68,9 @@
     }
     
     NSLog(@"-----------update: %@",self.answersheetArray);
+    
+    [self updateSubmitButton];
+
 }
 
 - (void)scrollToQuestionAtIndex:(NSNotification *)notif
@@ -86,6 +93,7 @@
         [self.view addSubview:self.titleView];
         [self.view addSubview:self.questionCV];
         
+        [self.view addSubview:self.submitButton];
     }
     else{
         self.view = [UIView new];
@@ -152,6 +160,8 @@
         [titleView addSubview:_prevButton];
         [titleView addSubview:_nextButton];
         self.navigationItem.titleView = titleView;
+        
+
     }
     
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -203,6 +213,20 @@
     }
 }
 
+- (void)submitButtonPressed
+{
+    if ([self isQuestionnaireDone]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否立即提交问卷？" delegate:self cancelButtonTitle:@"稍后提交" otherButtonTitles:@"确定", nil];
+        alert.tag = QuestionnaireNotDoneAlertTag;
+        [alert show];
+    }
+    else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"需要回答所有问题才能提交问卷" delegate:self cancelButtonTitle:@"查看答题卡" otherButtonTitles:@"确定", nil];
+        alert.tag = QuestionnaireDoneAlertTag;
+        [alert show];
+    }
+}
+
 #pragma mark - Lazy-Lazy
 
 - (QuestionnaireTitleView *)titleView
@@ -231,6 +255,18 @@
         _questionCV.cvDelegate = self;
     }
     return _questionCV;
+}
+
+- (UIButton *)submitButton
+{
+    if (!_submitButton) {
+        _submitButton = [[UIButton alloc] initWithFrame:CGRectMake(0, [[UIScreen mainScreen] bounds].size.height, [[UIScreen mainScreen] bounds].size.width, 44)];
+        [_submitButton setTitle:@"提  交" forState:UIControlStateNormal];
+        [_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_submitButton setBackgroundColor:[UIColor redColor]];
+        [_submitButton addTarget:self action:@selector(submitButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _submitButton;
 }
 
 #pragma mark - Networking
@@ -267,11 +303,77 @@
     [self updateViewWithCurrentIndex:_currentItemIndex];
 }
 
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        // submit and network request
+    }
+    else{
+        if (alertView.tag == QuestionnaireDoneAlertTag) {
+            [self answerSheetItemPressed];
+        }
+        else if (alertView.tag == QuestionnaireNotDoneAlertTag){
+            // submit later
+        }
+    }
+}
+
+#pragma mark - Private
+
 - (void)updateViewWithCurrentIndex:(NSInteger)index
 {
     [self.titleView setCurrentPage:_currentItemIndex];
     _nextButton.enabled = (_currentItemIndex == _questionnaire.questions.count - 1) ? NO : YES;
     _prevButton.enabled = (_currentItemIndex == 0) ? NO : YES;
+}
+
+- (BOOL)isQuestionnaireDone
+{
+    BOOL done = YES;
+    for (NSArray *a in self.answersheetArray) {
+        if (a.count == 0) {
+            done = NO;
+        }
+    }
+    return done;
+}
+
+- (void)updateSubmitButton
+{
+    if ([self isQuestionnaireDone] || _currentItemIndex == _questionnaire.questions.count - 1) {
+        [self showSubmitButton];
+    }
+    else{
+        [self hideSubmitButton];
+    }
+}
+
+-(void)showSubmitButton
+{
+    [UIView animateWithDuration:0.5
+                          delay:0.1
+                        options: UIViewAnimationOptionLayoutSubviews
+                     animations:^{
+                         _submitButton.frame = CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, 44);
+                     }
+                     completion:^(BOOL finished){
+                     }];
+}
+
+-(void)hideSubmitButton
+{
+    if (_submitButton.frame.origin.y == self.view.frame.size.height - 44) {
+        [UIView animateWithDuration:0.5
+                              delay:0.1
+                            options: UIViewAnimationOptionLayoutSubviews
+                         animations:^{
+                             _submitButton.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 44);
+                         }
+                         completion:^(BOOL finished){
+                         }];
+    }
 }
 
 @end
