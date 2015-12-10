@@ -17,8 +17,6 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
 
 @interface SingleQuestionTV ()<UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, assign) QuestionType questionType;
-
 @end
 
 @implementation SingleQuestionTV

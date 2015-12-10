@@ -78,6 +78,12 @@
 
 - (void)updateWithSelected:(BOOL)selected
 {
+    [super setSelected:selected animated:animated];
+    
+}
+
+- (void)updateCheckLabel
+{
     _optionCheckLabel.backgroundColor = selected ? [UIColor redColor] : [UIColor whiteColor];
     _optionCheckLabel.layer.borderWidth = 1.f;
     _optionCheckLabel.layer.borderColor = selected ? [UIColor redColor].CGColor : [UIColor lightGrayColor].CGColor;

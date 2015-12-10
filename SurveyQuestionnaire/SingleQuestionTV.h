@@ -14,4 +14,6 @@
 @property (nonatomic, strong) SingleQuestionModel *model;
 @property (nonatomic, strong) NSMutableArray *answerArray;
 
+@property (nonatomic, assign) QuestionType questionType;
+
 @end

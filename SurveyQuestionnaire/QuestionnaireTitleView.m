@@ -53,10 +53,10 @@
     return self;
 }
 
-//- (void)layoutSublayersOfLayer:(CALayer *)layer
-//{
-//    [super layoutSublayersOfLayer:layer];
-//}
+- (void)layoutSublayersOfLayer:(CALayer *)layer
+{
+    [super layoutSublayersOfLayer:layer];
+}
 
 - (void)layoutSubviews
 {
@@ -99,8 +99,8 @@
     _total = total;
     _titleLabel.text = title;
     if (total == 0) {
-        _currentPageLabel.textColor = [UIColor clearColor];
-        _totalPageLabel.textColor = [UIColor clearColor];
+        _currentPageLabel.hidden = YES;
+        _totalPageLabel.hidden = YES;
     }
     else{
         _currentPageLabel.text = @"1";
