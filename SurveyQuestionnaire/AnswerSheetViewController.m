@@ -87,7 +87,7 @@
         layout.itemSize = CGSizeMake(50, 50);
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
         _answerSheetCV = [[AnswerSheetCV alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-        
+        _answerSheetCV.answerSheetDelegate = self;
     }
     return _answerSheetCV;
 }
@@ -96,7 +96,8 @@
 
 - (void)answerCellSelectedWithIndex:(NSInteger)index
 {
-    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:QuestionnaireScrollNotification object:self userInfo:@{@"index":[NSNumber numberWithInteger:index]}];
 }
 
 @end

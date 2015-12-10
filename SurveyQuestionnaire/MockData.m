@@ -37,7 +37,7 @@
                                                        },
                                                        @{
                                                            @"optionContent" : @"Q2：女",
-                                                           @"isSelected" : @YES
+                                                           @"isSelected" : @NO
                                                            },
                                                    ]
                                        },
@@ -51,19 +51,19 @@
                                                    },
                                                @{
                                                    @"optionContent" : @"Q2：自主创业",
-                                                   @"isSelected" : @YES
+                                                   @"isSelected" : @NO
                                                    },
                                                @{
                                                    @"optionContent" : @"Q3：考研",
-                                                   @"isSelected" : @YES
+                                                   @"isSelected" : @NO
                                                    },
                                                @{
                                                    @"optionContent" : @"Q4：出国",
-                                                   @"isSelected" : @YES
+                                                   @"isSelected" : @NO
                                                    },
                                                @{
                                                    @"optionContent" : @"Q5：暂不就业",
-                                                   @"isSelected" : @YES
+                                                   @"isSelected" : @NO
                                                    },
                                                ]
                                        },

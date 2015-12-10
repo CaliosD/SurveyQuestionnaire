@@ -70,13 +70,13 @@
     }
     
     _optionLabel.text = _option.optionContent;
-    [self updateWithSelected:_option.isSelected];
+    [self updateCellWithSelected:_option.isSelected];
     
     [self setNeedsUpdateConstraints];
     [self updateConstraintsIfNeeded];
 }
 
-- (void)updateWithSelected:(BOOL)selected
+- (void)updateCellWithSelected:(BOOL)selected
 {
     _optionCheckLabel.backgroundColor = selected ? [UIColor redColor] : [UIColor whiteColor];
     _optionCheckLabel.layer.borderWidth = 1.f;

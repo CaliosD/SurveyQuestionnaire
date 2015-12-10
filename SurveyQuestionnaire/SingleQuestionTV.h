@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @class SingleQuestionModel;
+
 @interface SingleQuestionTV : UITableView
 
 @property (nonatomic, strong) SingleQuestionModel *model;
 @property (nonatomic, strong) NSMutableArray *answerArray;
-
-@property (nonatomic, assign) QuestionType questionType;
+@property (nonatomic, assign) NSInteger index;
 
 @end

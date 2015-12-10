@@ -14,7 +14,6 @@
 		EE2A46FA1C16BF5A00535932 /* QuestionCVHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2A46F91C16BF5A00535932 /* QuestionCVHeader.m */; };
 		EE2A46FD1C16C2A500535932 /* QuestionnaireCV.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2A46FC1C16C2A500535932 /* QuestionnaireCV.m */; };
 		EE2A47031C17BFB500535932 /* QuestionCVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2A47021C17BFB500535932 /* QuestionCVCell.m */; };
-
 		EE6A9C8B1C0E915000022526 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A9C8A1C0E915000022526 /* main.m */; };
 		EE6A9C8E1C0E915000022526 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A9C8D1C0E915000022526 /* AppDelegate.m */; };
 		EE6A9C941C0E915000022526 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE6A9C921C0E915000022526 /* Main.storyboard */; };
@@ -43,6 +42,7 @@
 		EE6A9CFC1C0EC92B00022526 /* SingleQuestionTV.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A9CFB1C0EC92B00022526 /* SingleQuestionTV.m */; };
 		EE6A9CFF1C0ED8EA00022526 /* QuestionnaireViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A9CFE1C0ED8EA00022526 /* QuestionnaireViewController.m */; };
 		EE6A9D021C0EDA8500022526 /* MockData.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A9D011C0EDA8500022526 /* MockData.m */; };
+		EE6E86FD1C195D05001B5E5D /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = EE6E86FC1C195D05001B5E5D /* README.md */; };
 		EE7257B21C158643008CD865 /* UITableView+FDIndexPathHeightCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7257AB1C158643008CD865 /* UITableView+FDIndexPathHeightCache.m */; };
 		EE7257B31C158643008CD865 /* UITableView+FDKeyedHeightCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7257AD1C158643008CD865 /* UITableView+FDKeyedHeightCache.m */; };
 		EE7257B41C158643008CD865 /* UITableView+FDTemplateLayoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7257AF1C158643008CD865 /* UITableView+FDTemplateLayoutCell.m */; };
@@ -150,6 +150,7 @@
 		EE6A9CFE1C0ED8EA00022526 /* QuestionnaireViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionnaireViewController.m; sourceTree = "<group>"; };
 		EE6A9D001C0EDA8500022526 /* MockData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockData.h; sourceTree = "<group>"; };
 		EE6A9D011C0EDA8500022526 /* MockData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockData.m; sourceTree = "<group>"; };
+		EE6E86FC1C195D05001B5E5D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		EE7257AA1C158643008CD865 /* UITableView+FDIndexPathHeightCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+FDIndexPathHeightCache.h"; sourceTree = "<group>"; };
 		EE7257AB1C158643008CD865 /* UITableView+FDIndexPathHeightCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+FDIndexPathHeightCache.m"; sourceTree = "<group>"; };
 		EE7257AC1C158643008CD865 /* UITableView+FDKeyedHeightCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+FDKeyedHeightCache.h"; sourceTree = "<group>"; };
@@ -270,7 +271,7 @@
 		EE6A9C7D1C0E915000022526 = {
 			isa = PBXGroup;
 			children = (
-				EE2A46F21C167F3800535932 /* README.md */,
+				EE6E86FC1C195D05001B5E5D /* README.md */,
 				EE6A9C881C0E915000022526 /* SurveyQuestionnaire */,
 				EE6A9CA21C0E915000022526 /* SurveyQuestionnaireTests */,
 				EE6A9CAD1C0E915000022526 /* SurveyQuestionnaireUITests */,
@@ -591,7 +592,6 @@
 				EE6A9CF71C0E9AC400022526 /* NSArray+PureLayout.m in Sources */,
 				EE6A9CE11C0E972600022526 /* MJPropertyKey.m in Sources */,
 				EE055F531C1167C100BD2937 /* AnswerSheetViewController.m in Sources */,
-				EE2A46F31C167F3800535932 /* README.md in Sources */,
 				EE6A9CBE1C0E92C300022526 /* SingleOptionTVCell.m in Sources */,
 				EE7257B41C158643008CD865 /* UITableView+FDTemplateLayoutCell.m in Sources */,
 				EE6A9CC41C0E963800022526 /* SingleQuestionModel.m in Sources */,
@@ -610,6 +610,7 @@
 				EE6A9CF61C0E9AC400022526 /* ALView+PureLayout.m in Sources */,
 				EE7257B51C158643008CD865 /* UITableView+FDTemplateLayoutCellDebug.m in Sources */,
 				EE2A47031C17BFB500535932 /* QuestionCVCell.m in Sources */,
+				EE6E86FD1C195D05001B5E5D /* README.md in Sources */,
 				EE7257B31C158643008CD865 /* UITableView+FDKeyedHeightCache.m in Sources */,
 				EE6A9C8B1C0E915000022526 /* main.m in Sources */,
 				EE6A9D021C0EDA8500022526 /* MockData.m in Sources */,

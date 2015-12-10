@@ -11,7 +11,7 @@
 #import "SingleQuestionModel.h"
 #import "QuestionnaireModel.h"
 
-#import "UITableView+FDTemplateLayoutCell.h"
+#import "UITableView-FDTemplateLayoutCell/UITableView+FDTemplateLayoutCell.h"
 
 static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
 
@@ -105,33 +105,38 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SingleOptionTVCell * cell = (SingleOptionTVCell *)[tableView cellForRowAtIndexPath:indexPath];
     OptionModel *option = [_model.options objectAtIndex:indexPath.row];
-    
+    option.isSelected = !option.isSelected;
+    [_model.options replaceObjectAtIndex:indexPath.row withObject:option];
+    [cell updateCellWithSelected:option.isSelected];
+
     if (_model.questionType == QuestionType_MultipleOptions) {
         if (option.isSelected) {
-            [_answerArray removeObjectAtIndex:indexPath.row];
-        }
-        else{
             [_answerArray addObject:[NSNumber numberWithInteger:indexPath.row]];
         }
-        option.isSelected = !option.isSelected;
-        cell.option = option;
-    }
-    else if (_model.questionType == QuestionType_SingleOption){
-        if (_answerArray.count == 1) {
-            if (indexPath.row == [_answerArray[0] integerValue]) {
-                option.isSelected = !option.isSelected;
-            }
-            else{
-                [tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:[_answerArray[0] integerValue] inSection:0] animated:NO];
-                
-            }
+        else{
+            [_answerArray removeObject:[NSNumber numberWithInteger:indexPath.row]];
         }
     }
-}
-
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+    else if (_model.questionType == QuestionType_SingleOption){
+        if (option.isSelected) {
+            if (_answerArray.count > 0) {
+                SingleOptionTVCell * oldCell = (SingleOptionTVCell *)[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[_answerArray[0] integerValue] inSection:0]];
+                [oldCell updateCellWithSelected:NO];
+                OptionModel *o = [_model.options objectAtIndex:[_answerArray[0] integerValue]];
+                o.isSelected = NO;
+                [_model.options replaceObjectAtIndex:[_answerArray[0] integerValue] withObject:o];
+            }
+            
+            [_answerArray removeAllObjects];
+            [_answerArray addObject:[NSNumber numberWithInteger:indexPath.row]];
+        }
+        else{
+            [_answerArray removeObject:[NSNumber numberWithInteger:indexPath.row]];
+        }
+    }
     
+    NSLog(@"()( send:%ld, %@",(long)_index,_answerArray);
+    [[NSNotificationCenter defaultCenter] postNotificationName:QuestionnaireAnswersChangeNotification object:self userInfo:@{@"index": [NSNumber numberWithInteger:_index], @"answer":_answerArray}];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -146,9 +151,7 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
 }
 
 - (void)configureCell:(SingleOptionTVCell *)cell atIndex:(NSIndexPath *)indexPath
-{
-    _questionType = _model.questionType;
-    
+{    
     OptionModel *option = [_model.options objectAtIndex:indexPath.row];
     cell.questionType = _model.questionType;
     cell.option = option;

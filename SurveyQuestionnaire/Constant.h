@@ -14,6 +14,9 @@ typedef NS_ENUM(NSInteger, QuestionType){
     QuestionType_MultipleOptions = 1
 };
 
+#define QuestionnaireAnswersChangeNotification  @"QuestionnaireAnswersChangeNotification"
+#define QuestionnaireScrollNotification     @"QuestionnaireScrollNotification"
+
 #define isiPhone                [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone
 #define isiPad                  [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad
 

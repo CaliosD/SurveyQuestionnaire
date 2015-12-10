@@ -15,5 +15,6 @@ extern NSString *const QuestionCVCellIdentifier;
 @interface QuestionCVCell : UICollectionViewCell
 
 @property (nonatomic, strong) SingleQuestionModel *model;
+@property (nonatomic, assign) NSInteger index;
 
 @end

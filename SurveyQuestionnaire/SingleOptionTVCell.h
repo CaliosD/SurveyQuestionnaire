@@ -14,6 +14,6 @@
 @property (nonatomic, assign) QuestionType questionType;
 @property (nonatomic, strong) OptionModel *option;
 
-- (void)updateWithSelected:(BOOL)selected;
+- (void)updateCellWithSelected:(BOOL)selected;
 
 @end

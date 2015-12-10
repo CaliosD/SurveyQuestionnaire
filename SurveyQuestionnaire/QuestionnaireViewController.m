@@ -22,7 +22,7 @@
 @property (nonatomic, strong) QuestionnaireCV        *questionCV;
 
 @property (nonatomic, strong) QuestionnaireModel     *questionnaire;
-@property (nonatomic, strong) NSMutableArray         *answerArray;
+@property (nonatomic, strong) NSMutableArray         *answersheetArray;
 @property (nonatomic, assign) NSInteger              currentItemIndex;
 
 @property (nonatomic, assign) BOOL                   didSetupConstraints;
@@ -35,10 +35,45 @@
 {
     self = [super init];
     if (self) {
-        _answerArray = [NSMutableArray array];
+        _answersheetArray = [NSMutableArray array];
         _currentItemIndex = 0;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAnswerArray:) name:QuestionnaireAnswersChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollToQuestionAtIndex:) name:QuestionnaireScrollNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)updateAnswerArray:(NSNotification *)notif
+{
+    NSDictionary *dict = notif.userInfo;
+    NSInteger index = [dict[@"index"] integerValue];
+    NSArray *subAnswer = dict[@"answer"];
+    
+    NSLog(@"()( receive:%ld, %@",(long)index,subAnswer);
+
+    NSLog(@"-----------before update: %@",self.answersheetArray);
+
+    if (self.answersheetArray.count > 0) {
+        [self.answersheetArray replaceObjectAtIndex:index withObject:subAnswer];
+    }
+    
+    NSLog(@"-----------update: %@",self.answersheetArray);
+}
+
+- (void)scrollToQuestionAtIndex:(NSNotification *)notif
+{
+    NSDictionary *dict = notif.userInfo;
+    NSInteger index = [dict[@"index"] integerValue];
+    
+    _currentItemIndex = index;
+    [_questionCV scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [self updateViewWithCurrentIndex:_currentItemIndex];
 }
 
 - (void)loadView
@@ -161,7 +196,7 @@
 {
     if (_questionnaire && _questionnaire.questions.count > 0) {
         AnswerSheetViewController *answerVC = [[AnswerSheetViewController alloc] init];
-        answerVC.answerArray = _answerArray;
+        answerVC.answerArray = _answersheetArray;
         answerVC.questionTitle = _questionnaire.questionnaireTitle;
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:answerVC];
         [self.navigationController presentViewController:nav animated:YES completion:NULL];
@@ -204,11 +239,11 @@
 {
     NSDictionary *model = [[MockData sharedData] questionnaire];
     _questionnaire = [QuestionnaireModel objectWithKeyValues:model];
-    [_answerArray removeAllObjects];
+    [_answersheetArray removeAllObjects];
     
     for (int i = 0; i < _questionnaire.questions.count; i++) {
         NSMutableArray *arr = [NSMutableArray array];
-        [_answerArray addObject:arr];
+        [_answersheetArray addObject:arr];
     }
     
     if (isiPhone) {

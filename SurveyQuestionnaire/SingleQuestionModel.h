@@ -12,6 +12,6 @@
 
 @property (nonatomic, strong) NSString *question;
 @property (nonatomic, assign) QuestionType questionType;
-@property (nonatomic, strong) NSArray *options;
+@property (nonatomic, strong) NSMutableArray *options;
 
 @end

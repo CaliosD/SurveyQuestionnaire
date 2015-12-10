@@ -57,6 +57,7 @@
     
         if (_questions && _questions.count > 0) {
             ((QuestionCVCell *)cell).model = [_questions objectAtIndex:indexPath.row];
+            ((QuestionCVCell *)cell).index = indexPath.row;
         }
     }
     else{

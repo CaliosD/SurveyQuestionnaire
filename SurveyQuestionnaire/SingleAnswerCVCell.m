@@ -37,7 +37,7 @@ NSInteger const textSize = 30;
 
 - (void)setCellIndex:(NSInteger)cellIndex
 {
-    _textLabel.text = [NSString stringWithFormat:@"%ld",(long)cellIndex];
+    _textLabel.text = [NSString stringWithFormat:@"%ld",(long)cellIndex + 1];
 }
 
 - (void)setIsAnswered:(BOOL)isAnswered

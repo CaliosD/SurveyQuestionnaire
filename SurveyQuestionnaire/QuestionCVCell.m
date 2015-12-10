@@ -36,6 +36,12 @@ NSString *const QuestionCVCellIdentifier = @"QuestionCVCellIdentifier";
     [_tableView reloadData];
 }
 
+- (void)setIndex:(NSInteger)index
+{
+    _index = index;
+    _tableView.index = index;
+}
+
 //- (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes
 //{
 //    UICollectionViewLayoutAttributes *attributes = [super preferredLayoutAttributesFittingAttributes:layoutAttributes];
