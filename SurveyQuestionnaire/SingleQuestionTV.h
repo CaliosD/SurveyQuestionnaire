@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class SingleQuestionModel;
 @interface SingleQuestionTV : UITableView
 
-/**
- *  The parameter can be SingleQuestionModel instance or NSArray consisted of SingleQuestionModel instance.
- */
-@property (nonatomic, strong) id model;
+@property (nonatomic, strong) SingleQuestionModel *model;
+@property (nonatomic, strong) NSMutableArray *answerArray;
 
 @property (nonatomic, assign) QuestionType questionType;
 
