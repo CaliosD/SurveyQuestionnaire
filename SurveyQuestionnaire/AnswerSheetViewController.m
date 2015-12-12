@@ -13,7 +13,8 @@
 @interface AnswerSheetViewController ()<AnswerSheetCVDelegate>
 
 @property (strong, nonatomic) QuestionnaireTitleView *titleView;
-@property (strong, nonatomic) AnswerSheetCV *answerSheetCV;
+@property (strong, nonatomic) AnswerSheetCV          *answerSheetCV;
+@property (nonatomic, strong) UIButton               *submitButton;
 
 @property (nonatomic, assign) BOOL didSetupConstraints;
 
@@ -28,6 +29,7 @@
     
     [self.view addSubview:self.titleView];
     [self.view addSubview:self.answerSheetCV];
+    [self.view addSubview:self.submitButton];
     
     [self.view setNeedsUpdateConstraints];
 }
@@ -62,10 +64,21 @@
     
 }
 
-
 - (void)cancelItemPressed
 {
     [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)submitButtonPressed
+{
+    if ([self isQuestionnaireDone]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否立即提交问卷？" delegate:self cancelButtonTitle:@"稍后提交" otherButtonTitles:@"确定", nil];
+        [alert show];
+    }
+    else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"需要回答所有问题才能提交问卷" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+    }
 }
 
 #pragma mark - Lazy-Lazy
@@ -92,12 +105,36 @@
     return _answerSheetCV;
 }
 
+- (UIButton *)submitButton
+{
+    if (!_submitButton) {
+        _submitButton = [[UIButton alloc] initWithFrame:CGRectMake(0, [[UIScreen mainScreen] bounds].size.height - 44, [[UIScreen mainScreen] bounds].size.width, 44)];
+        [_submitButton setTitle:@"提  交" forState:UIControlStateNormal];
+        [_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_submitButton setBackgroundColor:[UIColor redColor]];
+        [_submitButton addTarget:self action:@selector(submitButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _submitButton;
+}
+
 #pragma mark - AnswerSheetCVDelegate
 
 - (void)answerCellSelectedWithIndex:(NSInteger)index
 {
     [self dismissViewControllerAnimated:YES completion:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:QuestionnaireScrollNotification object:self userInfo:@{@"index":[NSNumber numberWithInteger:index]}];
+}
+
+#pragma mark - Private
+- (BOOL)isQuestionnaireDone
+{
+    BOOL done = YES;
+    for (NSArray *a in self.answerArray) {
+        if (a.count == 0) {
+            done = NO;
+        }
+    }
+    return done;
 }
 
 @end

@@ -13,9 +13,11 @@
 #import "QuestionnaireCV.h"
 
 #import "QuestionnaireModel.h"
+#import "AnswersheetModel.h"
 
 static NSInteger QuestionnaireNotDoneAlertTag = 999;
 static NSInteger QuestionnaireDoneAlertTag = 1000;
+static void *QuestionnaireViewControllerAnswerArrayObservationContext = &QuestionnaireViewControllerAnswerArrayObservationContext;
 
 @interface QuestionnaireViewController ()<QuestionnaireCVDelegate,UIAlertViewDelegate>
 
@@ -26,7 +28,7 @@ static NSInteger QuestionnaireDoneAlertTag = 1000;
 @property (nonatomic, strong) UIButton               *submitButton;
 
 @property (nonatomic, strong) QuestionnaireModel     *questionnaire;
-@property (nonatomic, strong) NSMutableArray         *answersheetArray;
+@property (nonatomic, strong) AnswersheetModel       *answersheet;
 @property (nonatomic, assign) NSInteger              currentItemIndex;
 
 @property (nonatomic, assign) BOOL                   didSetupConstraints;
@@ -39,11 +41,16 @@ static NSInteger QuestionnaireDoneAlertTag = 1000;
 {
     self = [super init];
     if (self) {
-        _answersheetArray = [NSMutableArray array];
         _currentItemIndex = 0;
+        self.answersheet = [[AnswersheetModel alloc] init];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAnswerArray:) name:QuestionnaireAnswersChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollToQuestionAtIndex:) name:QuestionnaireScrollNotification object:nil];
+        
+        [self.answersheet addObserver:self
+                           forKeyPath:@"answers"
+                              options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                              context:QuestionnaireViewControllerAnswerArrayObservationContext];
     }
     return self;
 }
@@ -51,6 +58,9 @@ static NSInteger QuestionnaireDoneAlertTag = 1000;
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.answersheet removeObserver:self
+                          forKeyPath:@"answers"
+                             context:QuestionnaireViewControllerAnswerArrayObservationContext];
 }
 
 - (void)updateAnswerArray:(NSNotification *)notif
@@ -61,16 +71,24 @@ static NSInteger QuestionnaireDoneAlertTag = 1000;
     
     NSLog(@"()( receive:%ld, %@",(long)index,subAnswer);
 
-    NSLog(@"-----------before update: %@",self.answersheetArray);
+    NSLog(@"-----------before update: %@",self.answersheet.answers);
 
-    if (self.answersheetArray.count > 0) {
-        [self.answersheetArray replaceObjectAtIndex:index withObject:subAnswer];
-    }
+//    if (self.answersheet.count > 0) {
+//        [self.answersheet replaceObjectAtIndex:index withObject:subAnswer];
+//    }
     
-    NSLog(@"-----------update: %@",self.answersheetArray);
+    [[self.answersheet mutableArrayValueForKey:@"answers"] replaceObjectAtIndex:index withObject:subAnswer];
+    
+    NSLog(@"-----------update: %@",self.answersheet.answers);
     
     [self updateSubmitButton];
 
+    
+    
+//    NSArray *q = (NSArray *)[[EGOCache globalCache] objectForKey:QuestionnaireQuestionArrayCacheKey];
+//    NSArray *a = (NSArray *)[[EGOCache globalCache] objectForKey:QuestionnaireAnswerArrayCacheKey];
+//    
+//    NSLog(@"------- \ncache: %@, \n%@",q,a);
 }
 
 - (void)scrollToQuestionAtIndex:(NSNotification *)notif
@@ -100,7 +118,7 @@ static NSInteger QuestionnaireDoneAlertTag = 1000;
         self.view.backgroundColor = [UIColor whiteColor];
         
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.itemSize = CGSizeMake(1024, 300);
+        layout.itemSize = CGSizeMake(1024, 30);
         layout.minimumInteritemSpacing = 1.f;
         layout.minimumLineSpacing = 1.f;
         layout.headerReferenceSize = CGSizeMake(1024, 80);
@@ -160,8 +178,11 @@ static NSInteger QuestionnaireDoneAlertTag = 1000;
         [titleView addSubview:_prevButton];
         [titleView addSubview:_nextButton];
         self.navigationItem.titleView = titleView;
-        
-
+    }
+    else{
+        UIBarButtonItem *answerSheetItem = [[UIBarButtonItem alloc] initWithTitle:@"答题卡" style:UIBarButtonItemStyleDone target:self action:@selector(answerSheetItemPressed)];
+        UIBarButtonItem *submitSheetItem = [[UIBarButtonItem alloc] initWithTitle:@"提交" style:UIBarButtonItemStyleDone target:self action:@selector(submitButtonPressed)];
+        self.navigationItem.rightBarButtonItems = @[submitSheetItem,answerSheetItem];
     }
     
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -172,7 +193,9 @@ static NSInteger QuestionnaireDoneAlertTag = 1000;
 {
     [super viewWillAppear:animated];
     
-    [self requestForQuestionnaireData];
+    if (!_questionnaire) {
+        [self requestForQuestionnaireData];
+    }
 }
 
 - (void)viewWillLayoutSubviews
@@ -206,7 +229,7 @@ static NSInteger QuestionnaireDoneAlertTag = 1000;
 {
     if (_questionnaire && _questionnaire.questions.count > 0) {
         AnswerSheetViewController *answerVC = [[AnswerSheetViewController alloc] init];
-        answerVC.answerArray = _answersheetArray;
+        answerVC.answerArray = self.answersheet.answers;
         answerVC.questionTitle = _questionnaire.questionnaireTitle;
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:answerVC];
         [self.navigationController presentViewController:nav animated:YES completion:NULL];
@@ -275,11 +298,10 @@ static NSInteger QuestionnaireDoneAlertTag = 1000;
 {
     NSDictionary *model = [[MockData sharedData] questionnaire];
     _questionnaire = [QuestionnaireModel objectWithKeyValues:model];
-    [_answersheetArray removeAllObjects];
     
     for (int i = 0; i < _questionnaire.questions.count; i++) {
         NSMutableArray *arr = [NSMutableArray array];
-        [_answersheetArray addObject:arr];
+        [[self.answersheet mutableArrayValueForKey:@"answers"] insertObject:arr atIndex:i];
     }
     
     if (isiPhone) {
@@ -292,6 +314,15 @@ static NSInteger QuestionnaireDoneAlertTag = 1000;
     
     self.questionCV.questions = _questionnaire.questions;
     [self.questionCV reloadData];
+
+    
+    // Test
+    
+//    [[EGOCache globalCache] setObject:_questionnaire.questions forKey:QuestionnaireQuestionArrayCacheKey];
+//    [[EGOCache globalCache] setObject:_answersheetArray forKey:QuestionnaireAnswerArrayCacheKey];
+    
+    
+    
 
 }
 
@@ -327,12 +358,13 @@ static NSInteger QuestionnaireDoneAlertTag = 1000;
     [self.titleView setCurrentPage:_currentItemIndex];
     _nextButton.enabled = (_currentItemIndex == _questionnaire.questions.count - 1) ? NO : YES;
     _prevButton.enabled = (_currentItemIndex == 0) ? NO : YES;
+    [self updateSubmitButton];
 }
 
 - (BOOL)isQuestionnaireDone
 {
     BOOL done = YES;
-    for (NSArray *a in self.answersheetArray) {
+    for (NSArray *a in self.answersheet.answers) {
         if (a.count == 0) {
             done = NO;
         }
@@ -376,4 +408,12 @@ static NSInteger QuestionnaireDoneAlertTag = 1000;
     }
 }
 
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
+{
+    if (context == QuestionnaireViewControllerAnswerArrayObservationContext) {
+//        NSLog(@"+++++++++ kvo: %@", self.answersheet.answers);
+    }
+}
 @end

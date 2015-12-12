@@ -14,6 +14,7 @@
 
 #import "MJExtension.h"
 #import "PureLayout.h"
+#import "EGOCache.h"
 
 #import "Constant.h"
 #import "MockData.h"

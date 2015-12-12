@@ -53,11 +53,6 @@
     return self;
 }
 
-- (void)layoutSublayersOfLayer:(CALayer *)layer
-{
-    [super layoutSublayersOfLayer:layer];
-}
-
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -103,6 +98,8 @@
         _totalPageLabel.hidden = YES;
     }
     else{
+        _currentPageLabel.hidden = NO;
+        _totalPageLabel.hidden = NO;
         _currentPageLabel.text = @"1";
         _totalPageLabel.text = [NSString stringWithFormat:@"/%ld",(long)total];
     }

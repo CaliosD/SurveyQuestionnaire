@@ -15,7 +15,15 @@ typedef NS_ENUM(NSInteger, QuestionType){
 };
 
 #define QuestionnaireAnswersChangeNotification  @"QuestionnaireAnswersChangeNotification"
-#define QuestionnaireScrollNotification     @"QuestionnaireScrollNotification"
+#define QuestionnaireScrollNotification         @"QuestionnaireScrollNotification"
+
+/**
+ *  Key used for cache.
+ */
+#define QuestionnaireQuestionArrayCacheKey      @"QuestionnaireQuestionArrayCacheKey"
+#define QuestionnaireAnswerArrayCacheKey        @"QuestionnaireAnswerArrayCacheKey"
+
+
 
 #define isiPhone                [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone
 #define isiPad                  [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad

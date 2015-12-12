@@ -56,8 +56,11 @@
         cell = (QuestionCVCell *)[collectionView dequeueReusableCellWithReuseIdentifier:QuestionCVCellIdentifier forIndexPath:indexPath];
     
         if (_questions && _questions.count > 0) {
-            ((QuestionCVCell *)cell).model = [_questions objectAtIndex:indexPath.row];
-            ((QuestionCVCell *)cell).index = indexPath.row;
+            ((QuestionCVCell *)cell).model = [_questions objectAtIndex:indexPath.item];
+            ((QuestionCVCell *)cell).index = indexPath.item;
+            
+            NSIndexPath *test = [collectionView indexPathForCell:cell];
+            NSLog(@"   %ld, %ld",(long)indexPath.item, (long)test.item);
         }
     }
     else{
@@ -78,6 +81,7 @@
     return isiPhone ? CGSizeMake([[UIScreen mainScreen] bounds].size.width, _itemHeight) : CGSizeMake(1024, 100);
 }
 
+#if TARGET_OS_IPHONE
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionReusableView *header = nil;
@@ -87,11 +91,10 @@
         SingleQuestionModel *question = (SingleQuestionModel *)[_questions objectAtIndex:indexPath.section];
         [(QuestionCVHeader *)header setQuestion:question.question andType:question.questionType];
     }
-    else{
-        header = [[UICollectionReusableView alloc] initWithFrame:CGRectZero];
-    }
+    
     return header;
 }
+#endif
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
