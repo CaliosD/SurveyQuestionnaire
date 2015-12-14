@@ -118,10 +118,9 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
         self.view.backgroundColor = [UIColor whiteColor];
         
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.itemSize = CGSizeMake(1024, 30);
+//        layout.itemSize = CGSizeMake(1024, 30);
         layout.minimumInteritemSpacing = 1.f;
         layout.minimumLineSpacing = 1.f;
-        layout.headerReferenceSize = CGSizeMake(1024, 80);
         
         _questionCV = [[QuestionnaireCV alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _questionCV.showsHorizontalScrollIndicator = NO;

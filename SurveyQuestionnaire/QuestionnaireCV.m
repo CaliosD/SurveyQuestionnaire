@@ -57,10 +57,6 @@
     
         if (_questions && _questions.count > 0) {
             ((QuestionCVCell *)cell).model = [_questions objectAtIndex:indexPath.item];
-            ((QuestionCVCell *)cell).index = indexPath.item;
-            
-            NSIndexPath *test = [collectionView indexPathForCell:cell];
-            NSLog(@"   %ld, %ld",(long)indexPath.item, (long)test.item);
         }
     }
     else{

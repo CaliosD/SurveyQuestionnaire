@@ -30,6 +30,8 @@ NSInteger const CheckBtnSize = 20;
         _optionCheckLabel.font = [UIFont systemFontOfSize:14];
         _optionCheckLabel.textAlignment = NSTextAlignmentCenter;
         _optionCheckLabel.text = @"√";
+        [_optionCheckLabel setClipsToBounds:YES];
+        
         _optionLabel = [UILabel newAutoLayoutView];
         _optionLabel.font = [UIFont systemFontOfSize:14.f];
         _optionLabel.numberOfLines = 0;
@@ -62,8 +64,7 @@ NSInteger const CheckBtnSize = 20;
     _option = option;
     _optionLabel.text = _option.optionContent;
 
-    [_optionCheckLabel setClipsToBounds:YES];
-    _optionCheckLabel.layer.cornerRadius = (_questionType == QuestionType_SingleOption) ?CheckBtnSize/2.f : 2.f;
+    _optionCheckLabel.layer.cornerRadius = (self.questionType == QuestionType_SingleOption) ? CheckBtnSize/2.f : 2.f;
 
     [self updateCheckLabel];
     
@@ -82,6 +83,11 @@ NSInteger const CheckBtnSize = 20;
     _optionCheckLabel.layer.borderWidth = 1.f;
     _optionCheckLabel.layer.borderColor = isSelected ? [UIColor redColor].CGColor : [UIColor lightGrayColor].CGColor;
     _optionCheckLabel.textColor = isSelected ? [UIColor whiteColor] : [UIColor lightGrayColor];
+}
+
+- (QuestionType)questionType
+{
+    return _questionType;
 }
 
 @end

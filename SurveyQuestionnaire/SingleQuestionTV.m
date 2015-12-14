@@ -17,6 +17,8 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
 
 @interface SingleQuestionTV ()<UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic, strong) NSMutableArray *answerArray;
+
 @end
 
 @implementation SingleQuestionTV
@@ -135,8 +137,8 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
         }
     }
     
-    NSLog(@"()( send:%ld, %@",(long)_index,_answerArray);
-    [[NSNotificationCenter defaultCenter] postNotificationName:QuestionnaireAnswersChangeNotification object:self userInfo:@{@"index": [NSNumber numberWithInteger:_index], @"answer":_answerArray}];
+//    NSLog(@"()( send:%ld, %@",[self.index integerValue],_answerArray);
+//    [[NSNotificationCenter defaultCenter] postNotificationName:QuestionnaireAnswersChangeNotification object:self userInfo:@{@"index": self.index, @"answer":_answerArray}];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
