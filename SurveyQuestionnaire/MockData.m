@@ -20,6 +20,11 @@
     return mock;
 }
 
+- (NSInteger)currentIndex
+{
+    return _currentIndex;
+}
+
 #pragma mark - 调查问卷
 - (NSDictionary *)questionnaire
 {
@@ -37,7 +42,7 @@
                                                        },
                                                        @{
                                                            @"optionContent" : @"Q2：女",
-                                                           @"isSelected" : @YES
+                                                           @"isSelected" : @NO
                                                            },
                                                    ]
                                        },
@@ -51,7 +56,7 @@
                                                    },
                                                @{
                                                    @"optionContent" : @"Q2：自主创业",
-                                                   @"isSelected" : @YES
+                                                   @"isSelected" : @NO
                                                    },
                                                @{
                                                    @"optionContent" : @"Q3：考研",
@@ -59,7 +64,7 @@
                                                    },
                                                @{
                                                    @"optionContent" : @"Q4：出国",
-                                                   @"isSelected" : @YES
+                                                   @"isSelected" : @NO
                                                    },
                                                @{
                                                    @"optionContent" : @"Q5：暂不就业",
