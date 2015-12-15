@@ -9,15 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @class SingleQuestionModel;
-@protocol SingleQuestionTVDelegate <NSObject>
-
-- (void)singleQuestionTVDidSelectWithAnswer:(NSArray *)answers;
-
-@end
 
 @interface SingleQuestionTV : UITableView
 
 @property (nonatomic, strong) SingleQuestionModel *model;
-@property (nonatomic, assign) id<SingleQuestionTVDelegate> tvDelegate;
 
 @end

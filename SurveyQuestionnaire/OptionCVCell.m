@@ -15,6 +15,7 @@ NSInteger const CheckBtnSize = 20;
 
 @property (nonatomic, strong) UILabel *optionCheckLabel;
 @property (nonatomic, strong) UILabel *optionLabel;
+@property (nonatomic, assign) BOOL isSelected;
 
 @property (nonatomic, assign) BOOL    didSetupConstraints;
 
@@ -59,35 +60,30 @@ NSInteger const CheckBtnSize = 20;
     [super updateConstraints];
 }
 
-- (void)setOption:(OptionModel *)option
+- (void)updateCellWithSelected:(BOOL)selected;
 {
-    _option = option;
-    _optionLabel.text = _option.optionContent;
+    _optionCheckLabel.backgroundColor = selected ? [UIColor redColor] : [UIColor whiteColor];
+    _optionCheckLabel.layer.borderWidth = 1.f;
+    _optionCheckLabel.layer.borderColor = selected ? [UIColor redColor].CGColor : [UIColor lightGrayColor].CGColor;
+    _optionCheckLabel.textColor = selected ? [UIColor whiteColor] : [UIColor lightGrayColor];
+    
+}
 
-    _optionCheckLabel.layer.cornerRadius = (self.questionType == QuestionType_SingleOption) ? CheckBtnSize/2.f : 2.f;
-
-    [self updateCheckLabel];
+- (void)configureCellWithModel:(OptionModel *)model andType:(QuestionType)type
+{
+    _optionLabel.text = model.optionContent;
+    
+    if (type == QuestionType_SingleOption) {
+        _optionCheckLabel.layer.cornerRadius = CheckBtnSize/2.f;
+    }
+    else if (type == QuestionType_MultipleOptions){
+        _optionCheckLabel.layer.cornerRadius = 2.f;
+    }
+    
+    [self updateCellWithSelected:model.isSelected];
     
     [self setNeedsUpdateConstraints];
     [self updateConstraintsIfNeeded];
-}
-
-- (void)updateCheckLabel
-{
-    [self setIsSelected:_option.isSelected];
-}
-
-- (void)setIsSelected:(BOOL)isSelected
-{
-    _optionCheckLabel.backgroundColor = isSelected ? [UIColor redColor] : [UIColor whiteColor];
-    _optionCheckLabel.layer.borderWidth = 1.f;
-    _optionCheckLabel.layer.borderColor = isSelected ? [UIColor redColor].CGColor : [UIColor lightGrayColor].CGColor;
-    _optionCheckLabel.textColor = isSelected ? [UIColor whiteColor] : [UIColor lightGrayColor];
-}
-
-- (QuestionType)questionType
-{
-    return _questionType;
 }
 
 @end

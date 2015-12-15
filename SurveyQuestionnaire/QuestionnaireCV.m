@@ -14,10 +14,9 @@
 
 static void *QuestionnaireViewControllerAnswerArrayObservationContext = &QuestionnaireViewControllerAnswerArrayObservationContext;
 
-@interface QuestionnaireCV ()<UICollectionViewDataSource, UICollectionViewDelegate, QuestionCVCellDelegate>
+@interface QuestionnaireCV ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, assign) NSInteger currentIndex;
-@property (nonatomic, strong) NSMutableDictionary *testDict;
 
 @end
 
@@ -29,7 +28,6 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
     if (self) {
         _itemHeight = 0.f;
         _currentIndex = 0;
-        _testDict = [NSMutableDictionary dictionary];
         self.backgroundColor = [UIColor whiteColor];
         self.dataSource = self;
         self.delegate = self;
@@ -37,11 +35,32 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
             [self registerClass:[QuestionCVCell class] forCellWithReuseIdentifier:QuestionCVCellIdentifier];
         }
         else{
+            _answers = [NSMutableArray array];
+
             [self registerClass:[OptionCVCell class] forCellWithReuseIdentifier:OptionCVCellIdentifier];
             [self registerClass:[QuestionCVHeader class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:QuestionCVHeaderIdentifier];
         }
     }
     return self;
+}
+
+- (void)setQuestions:(NSArray *)questions
+{
+    _questions = [NSMutableArray arrayWithArray:questions];
+    
+    NSMutableArray *a = [NSMutableArray array];
+    for (NSInteger i = 0; i < questions.count; i++) {
+        SingleQuestionModel *question = _questions[i];
+        NSMutableArray *q = [NSMutableArray array];
+        for (int j = 0; j < question.options.count; j++) {
+            OptionModel *option = question.options[j];
+            if (option.isSelected) {
+                [q addObject:[NSNumber numberWithInt:j]];
+            }
+        }
+        [a addObject:q];
+    }
+    _answers = a;
 }
 
 #pragma mark - UICollectionViewDataSource & UICollectionViewDelegate
@@ -70,9 +89,7 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
         cell = (OptionCVCell *)[collectionView dequeueReusableCellWithReuseIdentifier:OptionCVCellIdentifier forIndexPath:indexPath];
         
         if (_questions && _questions.count > 0) {
-            OptionModel *option = [[(SingleQuestionModel *)[_questions objectAtIndex:indexPath.section] options] objectAtIndex:indexPath.row];
-            ((OptionCVCell *)cell).option = option;
-            ((OptionCVCell *)cell).questionType = [(SingleQuestionModel *)[_questions objectAtIndex:indexPath.section] questionType];
+            [self configureiPadCVCell:(OptionCVCell *)cell forIndex:indexPath];
         }
     }
 
@@ -81,20 +98,26 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
 
 - (void)configureCVCell:(QuestionCVCell *)cell forIndex:(NSInteger)index
 {
-    cell.cellDelegate = self;
     SingleQuestionModel *model = [_questions objectAtIndex:index];
-
-//    NSLog(@"------------ %@,%@, %ld",model.question,model.options,(long)index);
-
     [cell configureCellWithModel:model];
+}
+
+- (void)configureiPadCVCell:(OptionCVCell *)cell forIndex:(NSIndexPath *)indexPath
+{
+    SingleQuestionModel *model = (SingleQuestionModel *)[_questions objectAtIndex:indexPath.section];
+
+    OptionModel *option = [model.options objectAtIndex:indexPath.row];
+    [cell configureCellWithModel:option andType:model.questionType];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return isiPhone ? CGSizeMake([[UIScreen mainScreen] bounds].size.width, _itemHeight) : CGSizeMake(1024, 100);
+    SingleQuestionModel *question = (SingleQuestionModel *)[_questions objectAtIndex:indexPath.section];
+    NSString *option = [[question.options objectAtIndex:indexPath.row] optionContent];
+    CGSize size = [option boundingRectWithSize:CGSizeMake(self.frame.size.width - 20 - 12 * 3, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.f]} context:nil].size;
+    return isiPhone ? CGSizeMake([[UIScreen mainScreen] bounds].size.width, _itemHeight) : CGSizeMake(1024, size.height + 12 * 2);
 }
 
-#if TARGET_OS_IPHONE
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionReusableView *header = nil;
@@ -107,26 +130,45 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
     
     return header;
 }
-#endif
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+    SingleQuestionModel *question = (SingleQuestionModel *)[_questions objectAtIndex:section];
+    CGSize size = [question.question boundingRectWithSize:CGSizeMake(self.frame.size.width - 50 - 12 * 3, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.f]} context:nil].size;
+
+    return CGSizeMake(self.frame.size.width, size.height + 12 * 2);
+}
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (isiPhone) {
+    if (isiPad) {
+        SingleQuestionModel *model = [_questions objectAtIndex:indexPath.section];
+        OptionModel *option = [model.options objectAtIndex:indexPath.row];
+        option.isSelected = !option.isSelected;
+        [model.options replaceObjectAtIndex:indexPath.row withObject:option];
+        [_questions replaceObjectAtIndex:indexPath.section withObject:model];
+        
+        
+        if (model.questionType == QuestionType_SingleOption) {
+            // TODO.
+            
+            
+            [collectionView reloadItemsAtIndexPaths:@[indexPath]];
+
+        }
+        
+        
+        
+        
+        
+        
         
     }
 }
 
-- (void)questionCVCellDidSelectWithAnswer:(NSArray *)array
-{
-    NSString *key = [NSString stringWithFormat:@"%ld",(long)_currentIndex];
-    [_testDict setObject:array forKey:key];
-}
-
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    _currentIndex = (NSInteger)scrollView.contentOffset.x/375;
-
-    NSLog(@"~~~~~~~~~~~~~~_currentIndex: %ld",(long)_currentIndex);
+    _currentIndex = (NSInteger)scrollView.contentOffset.x/[[UIScreen mainScreen]bounds].size.width;
     [[MockData sharedData] setCurrentIndex:_currentIndex];
 
     if ([self.cvDelegate respondsToSelector:@selector(updateCurrentIndex:)]) {

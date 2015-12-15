@@ -13,8 +13,6 @@ extern NSString *const OptionCVCellIdentifier;
 
 @interface OptionCVCell : UICollectionViewCell
 
-@property (nonatomic, assign) QuestionType questionType;
-@property (nonatomic, strong) OptionModel *option;
-@property (nonatomic, assign) BOOL isSelected;
+- (void)configureCellWithModel:(OptionModel *)model andType:(QuestionType )type;
 
 @end

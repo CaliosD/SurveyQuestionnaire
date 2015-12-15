@@ -11,7 +11,7 @@
 
 NSString *const QuestionCVCellIdentifier = @"QuestionCVCellIdentifier";
 
-@interface QuestionCVCell ()<SingleQuestionTVDelegate>
+@interface QuestionCVCell ()
 
 @property (nonatomic, strong) SingleQuestionTV *tableView;
 
@@ -24,7 +24,6 @@ NSString *const QuestionCVCellIdentifier = @"QuestionCVCellIdentifier";
     self = [super initWithFrame:frame];
     if (self) {
         _tableView = [[SingleQuestionTV alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        _tableView.tvDelegate = self;
         [self.contentView addSubview:_tableView];
     }
     return self;
@@ -34,14 +33,6 @@ NSString *const QuestionCVCellIdentifier = @"QuestionCVCellIdentifier";
 {
     _tableView.model = model;
     [_tableView reloadData];
-}
-
-- (void)singleQuestionTVDidSelectWithAnswer:(NSArray *)answers
-{
-    NSLog(@"-----QuestionCVCell: %@", answers.description);
-    if ([self.cellDelegate respondsToSelector:@selector(questionCVCellDidSelectWithAnswer:)]) {
-        [self.cellDelegate questionCVCellDidSelectWithAnswer:answers];
-    }
 }
 
 @end

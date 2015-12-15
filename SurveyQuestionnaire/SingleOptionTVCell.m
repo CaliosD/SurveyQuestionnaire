@@ -30,6 +30,8 @@
         _optionCheckLabel.font = [UIFont systemFontOfSize:14];
         _optionCheckLabel.textAlignment = NSTextAlignmentCenter;
         _optionCheckLabel.text = @"√";
+        [_optionCheckLabel setClipsToBounds:YES];
+
         _optionLabel = [UILabel newAutoLayoutView];
         _optionLabel.font = [UIFont systemFontOfSize:14.f];
         _optionLabel.numberOfLines = 0;
@@ -60,7 +62,6 @@
 - (void)setOption:(OptionModel *)option
 {
     _option = option;
-    [_optionCheckLabel setClipsToBounds:YES];
 
     if (_questionType == QuestionType_SingleOption) {
         _optionCheckLabel.layer.cornerRadius = CheckBtnSize/2.f;

@@ -49,7 +49,6 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
             [_answerArray addObject:[NSNumber numberWithInteger:i]];
         }
     }
-//    NSLog(@"_answerArray: %@",_answerArray);
 }
 
 #pragma mark - UITableViewDataSource
@@ -109,7 +108,7 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
     SingleOptionTVCell * cell = (SingleOptionTVCell *)[tableView cellForRowAtIndexPath:indexPath];
     OptionModel *option = [_model.options objectAtIndex:indexPath.row];
     option.isSelected = !option.isSelected;
-//    [_model.options replaceObjectAtIndex:indexPath.row withObject:option];
+    [_model.options replaceObjectAtIndex:indexPath.row withObject:option];
     [cell updateCellWithSelected:option.isSelected];
 
     if (_model.questionType == QuestionType_MultipleOptions) {
@@ -139,12 +138,7 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
     }
     
     NSArray *param = [NSArray arrayWithArray:_answerArray];
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:QuestionnaireAnswersChangeNotification object:nil userInfo:@{@"answers": param}];
-//    if ([self.tvDelegate respondsToSelector:@selector(singleQuestionTVDidSelectWithAnswer:)]) {
-//        NSLog(@"-------SingleQuestionTV: %@",_answerArray.description);
-//        [self.tvDelegate singleQuestionTVDidSelectWithAnswer:param];
-//    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
