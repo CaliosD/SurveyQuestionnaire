@@ -28,7 +28,7 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
 @property (nonatomic, strong) UIButton               *submitButton;
 
 @property (nonatomic, strong) QuestionnaireModel     *questionnaire;
-@property (nonatomic, strong) AnswersheetModel       *answersheet;
+@property (nonatomic, strong) NSMutableArray         *answersheet;
 @property (nonatomic, assign) NSInteger              currentItemIndex;
 
 @property (nonatomic, assign) BOOL                   didSetupConstraints;
@@ -42,15 +42,10 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
     self = [super init];
     if (self) {
         _currentItemIndex = 0;
-        self.answersheet = [[AnswersheetModel alloc] init];
+        self.answersheet = [[NSMutableArray alloc] init];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAnswerArray:) name:QuestionnaireAnswersChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollToQuestionAtIndex:) name:QuestionnaireScrollNotification object:nil];
-        
-        [self.answersheet addObserver:self
-                           forKeyPath:@"answers"
-                              options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
-                              context:QuestionnaireViewControllerAnswerArrayObservationContext];
     }
     return self;
 }
@@ -58,37 +53,19 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.answersheet removeObserver:self
-                          forKeyPath:@"answers"
-                             context:QuestionnaireViewControllerAnswerArrayObservationContext];
 }
 
 - (void)updateAnswerArray:(NSNotification *)notif
 {
     NSDictionary *dict = notif.userInfo;
-    NSInteger index = [dict[@"index"] integerValue];
-    NSArray *subAnswer = dict[@"answer"];
+    NSArray *answers = dict[@"answers"];
     
-    NSLog(@"()( receive:%ld, %@",(long)index,subAnswer);
+    [self.answersheet replaceObjectAtIndex:_currentItemIndex withObject:answers];
+    
+    NSLog(@"<><><> %@",self.answersheet);
 
-    NSLog(@"-----------before update: %@",self.answersheet.answers);
-
-//    if (self.answersheet.count > 0) {
-//        [self.answersheet replaceObjectAtIndex:index withObject:subAnswer];
-//    }
-    
-    [[self.answersheet mutableArrayValueForKey:@"answers"] replaceObjectAtIndex:index withObject:subAnswer];
-    
-    NSLog(@"-----------update: %@",self.answersheet.answers);
-    
     [self updateSubmitButton];
 
-    
-    
-//    NSArray *q = (NSArray *)[[EGOCache globalCache] objectForKey:QuestionnaireQuestionArrayCacheKey];
-//    NSArray *a = (NSArray *)[[EGOCache globalCache] objectForKey:QuestionnaireAnswerArrayCacheKey];
-//    
-//    NSLog(@"------- \ncache: %@, \n%@",q,a);
 }
 
 - (void)scrollToQuestionAtIndex:(NSNotification *)notif
@@ -177,6 +154,8 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
         [titleView addSubview:_prevButton];
         [titleView addSubview:_nextButton];
         self.navigationItem.titleView = titleView;
+        
+        [[MockData sharedData] setCurrentIndex:0];
     }
     else{
         UIBarButtonItem *answerSheetItem = [[UIBarButtonItem alloc] initWithTitle:@"答题卡" style:UIBarButtonItemStyleDone target:self action:@selector(answerSheetItemPressed)];
@@ -228,7 +207,7 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
 {
     if (_questionnaire && _questionnaire.questions.count > 0) {
         AnswerSheetViewController *answerVC = [[AnswerSheetViewController alloc] init];
-        answerVC.answerArray = self.answersheet.answers;
+        answerVC.answerArray = self.answersheet;
         answerVC.questionTitle = _questionnaire.questionnaireTitle;
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:answerVC];
         [self.navigationController presentViewController:nav animated:YES completion:NULL];
@@ -300,7 +279,7 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
     
     for (int i = 0; i < _questionnaire.questions.count; i++) {
         NSMutableArray *arr = [NSMutableArray array];
-        [[self.answersheet mutableArrayValueForKey:@"answers"] insertObject:arr atIndex:i];
+        [self.answersheet addObject:arr];
     }
     
     if (isiPhone) {
@@ -313,23 +292,13 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
     
     self.questionCV.questions = _questionnaire.questions;
     [self.questionCV reloadData];
-
-    
-    // Test
-    
-//    [[EGOCache globalCache] setObject:_questionnaire.questions forKey:QuestionnaireQuestionArrayCacheKey];
-//    [[EGOCache globalCache] setObject:_answersheetArray forKey:QuestionnaireAnswerArrayCacheKey];
-    
-    
-    
-
 }
 
 #pragma mark - QuestionnaireCVDelegate
 
 - (void)updateCurrentIndex:(NSInteger)index
 {
-    _currentItemIndex = index + 1;
+    _currentItemIndex = index;
     [self updateViewWithCurrentIndex:_currentItemIndex];
 }
 
@@ -363,8 +332,9 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
 - (BOOL)isQuestionnaireDone
 {
     BOOL done = YES;
-    for (NSArray *a in self.answersheet.answers) {
-        if (a.count == 0) {
+
+    for (NSArray *arr in self.answersheet) {
+        if (arr.count == 0) {
             done = NO;
         }
     }
@@ -407,12 +377,4 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
     }
 }
 
-#pragma mark - KVO
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
-{
-    if (context == QuestionnaireViewControllerAnswerArrayObservationContext) {
-//        NSLog(@"+++++++++ kvo: %@", self.answersheet.answers);
-    }
-}
 @end

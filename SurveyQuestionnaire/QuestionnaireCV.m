@@ -12,7 +12,12 @@
 #import "OptionCVCell.h"
 #import "SingleQuestionModel.h"
 
-@interface QuestionnaireCV ()<UICollectionViewDataSource, UICollectionViewDelegate>
+static void *QuestionnaireViewControllerAnswerArrayObservationContext = &QuestionnaireViewControllerAnswerArrayObservationContext;
+
+@interface QuestionnaireCV ()<UICollectionViewDataSource, UICollectionViewDelegate, QuestionCVCellDelegate>
+
+@property (nonatomic, assign) NSInteger currentIndex;
+@property (nonatomic, strong) NSMutableDictionary *testDict;
 
 @end
 
@@ -23,6 +28,8 @@
     self = [super initWithFrame:frame collectionViewLayout:layout];
     if (self) {
         _itemHeight = 0.f;
+        _currentIndex = 0;
+        _testDict = [NSMutableDictionary dictionary];
         self.backgroundColor = [UIColor whiteColor];
         self.dataSource = self;
         self.delegate = self;
@@ -54,9 +61,9 @@
     UICollectionViewCell *cell = nil;
     if (isiPhone) {
         cell = (QuestionCVCell *)[collectionView dequeueReusableCellWithReuseIdentifier:QuestionCVCellIdentifier forIndexPath:indexPath];
-    
+
         if (_questions && _questions.count > 0) {
-            ((QuestionCVCell *)cell).model = [_questions objectAtIndex:indexPath.item];
+            [self configureCVCell:(QuestionCVCell *)cell forIndex:indexPath.row];
         }
     }
     else{
@@ -70,6 +77,16 @@
     }
 
     return cell;
+}
+
+- (void)configureCVCell:(QuestionCVCell *)cell forIndex:(NSInteger)index
+{
+    cell.cellDelegate = self;
+    SingleQuestionModel *model = [_questions objectAtIndex:index];
+
+//    NSLog(@"------------ %@,%@, %ld",model.question,model.options,(long)index);
+
+    [cell configureCellWithModel:model];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -94,17 +111,26 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (isiPad) {
+    if (isiPhone) {
         
     }
 }
 
+- (void)questionCVCellDidSelectWithAnswer:(NSArray *)array
+{
+    NSString *key = [NSString stringWithFormat:@"%ld",(long)_currentIndex];
+    [_testDict setObject:array forKey:key];
+}
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    NSInteger currentIndex = (NSInteger)scrollView.contentOffset.x/375;
+    _currentIndex = (NSInteger)scrollView.contentOffset.x/375;
+
+    NSLog(@"~~~~~~~~~~~~~~_currentIndex: %ld",(long)_currentIndex);
+    [[MockData sharedData] setCurrentIndex:_currentIndex];
 
     if ([self.cvDelegate respondsToSelector:@selector(updateCurrentIndex:)]) {
-        [self.cvDelegate updateCurrentIndex:currentIndex - 1];
+        [self.cvDelegate updateCurrentIndex:_currentIndex];
     }
 }
 

@@ -35,4 +35,8 @@
     [self.answers removeObjectAtIndex:index];
 }
 
+- (NSArray *)objectInAnswersAtIndex:(NSUInteger)index
+{
+    return [self.answers objectAtIndex:index];
+}
 @end

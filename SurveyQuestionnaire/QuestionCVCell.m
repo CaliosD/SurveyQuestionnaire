@@ -11,7 +11,7 @@
 
 NSString *const QuestionCVCellIdentifier = @"QuestionCVCellIdentifier";
 
-@interface QuestionCVCell ()
+@interface QuestionCVCell ()<SingleQuestionTVDelegate>
 
 @property (nonatomic, strong) SingleQuestionTV *tableView;
 
@@ -24,23 +24,24 @@ NSString *const QuestionCVCellIdentifier = @"QuestionCVCellIdentifier";
     self = [super initWithFrame:frame];
     if (self) {
         _tableView = [[SingleQuestionTV alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        _tableView.tvDelegate = self;
         [self.contentView addSubview:_tableView];
     }
     return self;
 }
 
-- (void)setModel:(SingleQuestionModel *)model
+- (void)configureCellWithModel:(SingleQuestionModel *)model
 {
-    _model = model;
     _tableView.model = model;
     [_tableView reloadData];
 }
 
-//- (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes
-//{
-//    UICollectionViewLayoutAttributes *attributes = [super preferredLayoutAttributesFittingAttributes:layoutAttributes];
-//    attributes.size = [self systemLayoutSizeFittingSize:layoutAttributes.size withHorizontalFittingPriority:UILayoutPriorityRequired verticalFittingPriority:UILayoutPriorityFittingSizeLevel];
-//    return attributes;
-//}
+- (void)singleQuestionTVDidSelectWithAnswer:(NSArray *)answers
+{
+    NSLog(@"-----QuestionCVCell: %@", answers.description);
+    if ([self.cellDelegate respondsToSelector:@selector(questionCVCellDidSelectWithAnswer:)]) {
+        [self.cellDelegate questionCVCellDidSelectWithAnswer:answers];
+    }
+}
 
 @end

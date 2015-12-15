@@ -9,7 +9,7 @@
 #import "SingleAnswerCVCell.h"
 
 NSString *const AnswerSheetCVCellIdentifier = @"AnswerSheetCVCellIdentifier";
-NSInteger const textSize = 30;
+NSInteger const textSize = 35;
 
 @interface SingleAnswerCVCell ()
 

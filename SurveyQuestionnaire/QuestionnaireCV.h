@@ -11,6 +11,7 @@
 @protocol QuestionnaireCVDelegate <NSObject>
 
 - (void)updateCurrentIndex:(NSInteger)index;
+//- (void)tableSelectedWithIndex:(NSInteger)index;
 
 @end
 @interface QuestionnaireCV : UICollectionView

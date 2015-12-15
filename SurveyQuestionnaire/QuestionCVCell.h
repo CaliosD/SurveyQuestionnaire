@@ -12,8 +12,15 @@
 
 extern NSString *const QuestionCVCellIdentifier;
 
+@protocol QuestionCVCellDelegate <NSObject>
+
+- (void)questionCVCellDidSelectWithAnswer:(NSArray *)array;
+
+@end
 @interface QuestionCVCell : UICollectionViewCell
 
-@property (nonatomic, strong) SingleQuestionModel *model;
+@property (nonatomic, assign) id<QuestionCVCellDelegate> cellDelegate;
+
+- (void)configureCellWithModel:(SingleQuestionModel *)model;
 
 @end
