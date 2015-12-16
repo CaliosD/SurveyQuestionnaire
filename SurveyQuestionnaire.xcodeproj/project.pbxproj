@@ -228,13 +228,11 @@
 		EE055F4F1C11677400BD2937 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				EE9E79AA1C1BC75600115480 /* Cell */,
+				EE9E79AA1C1BC75600115480 /* Cell & Header */,
 				EE2A46FB1C16C2A500535932 /* QuestionnaireCV.h */,
 				EE2A46FC1C16C2A500535932 /* QuestionnaireCV.m */,
 				EE6A9CFA1C0EC92B00022526 /* SingleQuestionTV.h */,
 				EE6A9CFB1C0EC92B00022526 /* SingleQuestionTV.m */,
-				EEF8BFD11C0FE13700F9DB02 /* QuestionnaireTitleView.h */,
-				EEF8BFD21C0FE13700F9DB02 /* QuestionnaireTitleView.m */,
 				EE055F541C11687600BD2937 /* AnswerSheetCV.h */,
 				EE055F551C11687600BD2937 /* AnswerSheetCV.m */,
 				EE055F571C116B2E00BD2937 /* SingleAnswerCVCell.h */,
@@ -411,19 +409,21 @@
 			path = "UITableView-FDTemplateLayoutCell";
 			sourceTree = "<group>";
 		};
-		EE9E79AA1C1BC75600115480 /* Cell */ = {
+		EE9E79AA1C1BC75600115480 /* Cell & Header */ = {
 			isa = PBXGroup;
 			children = (
+				EEF8BFD11C0FE13700F9DB02 /* QuestionnaireTitleView.h */,
+				EEF8BFD21C0FE13700F9DB02 /* QuestionnaireTitleView.m */,
+				EE6A9CBC1C0E92C300022526 /* SingleOptionTVCell.h */,
+				EE6A9CBD1C0E92C300022526 /* SingleOptionTVCell.m */,
 				EE9E79AB1C1BC8A000115480 /* OptionCVCell.h */,
 				EE9E79AC1C1BC8A000115480 /* OptionCVCell.m */,
 				EE2A46F81C16BF5A00535932 /* QuestionCVHeader.h */,
 				EE2A46F91C16BF5A00535932 /* QuestionCVHeader.m */,
 				EE2A47011C17BFB500535932 /* QuestionCVCell.h */,
 				EE2A47021C17BFB500535932 /* QuestionCVCell.m */,
-				EE6A9CBC1C0E92C300022526 /* SingleOptionTVCell.h */,
-				EE6A9CBD1C0E92C300022526 /* SingleOptionTVCell.m */,
 			);
-			name = Cell;
+			name = "Cell & Header";
 			sourceTree = "<group>";
 		};
 		EEF8BFCD1C0FDC1000F9DB02 /* iCarousel */ = {
