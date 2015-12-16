@@ -37,8 +37,8 @@
 - (void)updateViewConstraints
 {
     if (!self.didSetupConstraints) {
-        
-        [_titleView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(64, 0, 0, 0) excludingEdge:ALEdgeBottom];
+        NSInteger topInset = isiPhone ? 64 : 44;
+        [_titleView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(topInset, 0, 0, 0) excludingEdge:ALEdgeBottom];
         
         [_answerSheetCV autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.titleView withOffset:12];
         [_answerSheetCV autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeTop];

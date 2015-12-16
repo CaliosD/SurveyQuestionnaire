@@ -87,12 +87,11 @@ NSInteger const TypeSize = 38;
             [_totalPageLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:12];
             [_totalPageLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:15];
             
-            [@[_currentPageLabel] autoSetViewsDimensionsToSize:CGSizeMake(24, 20)];
+            [@[_currentPageLabel] autoSetViewsDimensionsToSize:CGSizeMake(24, 15)];
             
             [_line autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeBottom];
             [_line autoSetDimension:ALDimensionHeight toSize:0.5];
             
-            [_qTypeLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:_currentPageLabel withOffset:12];
             [_qTypeLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:12.f];
             [_questionLabel autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(15 * 2 + 12, 12 * 2 + TypeSize, 12, 12) excludingEdge:ALEdgeBottom];
         }

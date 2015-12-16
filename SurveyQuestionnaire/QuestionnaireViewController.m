@@ -304,7 +304,7 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
         [self setTitle:_questionnaire.questionnaireTitle];
     }
     
-    self.questionCV.questions = _questionnaire.questions;
+    self.questionCV.questions = [NSMutableArray arrayWithArray:_questionnaire.questions];
     [self.questionCV reloadData];
 }
 
