@@ -12,6 +12,6 @@ extern NSString *const QuestionCVHeaderIdentifier;
 
 @interface QuestionCVHeader : UICollectionReusableView
 
-- (void)setQuestion:(NSString *)question andType:(QuestionType)questionType;
+- (void)setQuestion:(NSString *)question andType:(QuestionType)questionType currentIndex:(NSInteger)current total:(NSInteger)total;
 
 @end

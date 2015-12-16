@@ -61,11 +61,7 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
     NSArray *answers = dict[@"answers"];
     
     [self.answersheet replaceObjectAtIndex:_currentItemIndex withObject:answers];
-    
-    NSLog(@"<><><> %@",self.answersheet);
-
     [self updateSubmitButton];
-
 }
 
 - (void)scrollToQuestionAtIndex:(NSNotification *)notif
@@ -73,9 +69,15 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
     NSDictionary *dict = notif.userInfo;
     NSInteger index = [dict[@"index"] integerValue];
     
-    _currentItemIndex = index;
-    [_questionCV scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
-    [self updateViewWithCurrentIndex:_currentItemIndex];
+    if (isiPhone) {
+        _currentItemIndex = index;
+        [_questionCV scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+        [self updateViewWithCurrentIndex:_currentItemIndex];
+    }
+    else{
+        [_questionCV scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:index] atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
+    }
+
 }
 
 - (void)loadView
@@ -95,7 +97,6 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
         self.view.backgroundColor = [UIColor whiteColor];
         
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-//        layout.itemSize = CGSizeMake(1024, 30);
         layout.minimumInteritemSpacing = 1.f;
         layout.minimumLineSpacing = 1.f;
         
@@ -205,13 +206,26 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
 
 - (void)answerSheetItemPressed
 {
-    if (_questionnaire && _questionnaire.questions.count > 0) {
-        AnswerSheetViewController *answerVC = [[AnswerSheetViewController alloc] init];
-        answerVC.answerArray = self.answersheet;
-        answerVC.questionTitle = _questionnaire.questionnaireTitle;
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:answerVC];
-        [self.navigationController presentViewController:nav animated:YES completion:NULL];
+    if (isiPhone) {
+        if (_questionnaire && _questionnaire.questions.count > 0) {
+            AnswerSheetViewController *answerVC = [[AnswerSheetViewController alloc] init];
+            answerVC.answerArray = self.answersheet;
+            answerVC.questionTitle = _questionnaire.questionnaireTitle;
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:answerVC];
+            [self.navigationController presentViewController:nav animated:YES completion:NULL];
+        }
     }
+    else if (isiPad){
+        if (_questionCV.answers.count > 0) {
+            AnswerSheetViewController *answerVC = [[AnswerSheetViewController alloc] init];
+            answerVC.answerArray = _questionCV.answers;
+            answerVC.questionTitle = _questionnaire.questionnaireTitle;
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:answerVC];
+            nav.modalPresentationStyle = UIModalPresentationFormSheet;
+            [self.navigationController presentViewController:nav animated:YES completion:NULL];
+        }
+    }
+
 }
 
 - (void)submitButtonPressed

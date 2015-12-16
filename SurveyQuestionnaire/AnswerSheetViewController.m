@@ -108,7 +108,9 @@
 - (UIButton *)submitButton
 {
     if (!_submitButton) {
-        _submitButton = [[UIButton alloc] initWithFrame:CGRectMake(0, [[UIScreen mainScreen] bounds].size.height - 44, [[UIScreen mainScreen] bounds].size.width, 44)];
+        CGFloat y = isiPhone ? [[UIScreen mainScreen] bounds].size.height : 620.f;
+        CGFloat width = isiPhone ? [[UIScreen mainScreen] bounds].size.width : 540.f;
+        _submitButton = [[UIButton alloc] initWithFrame:CGRectMake(0, y - 44, width, 44)];
         [_submitButton setTitle:@"提  交" forState:UIControlStateNormal];
         [_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_submitButton setBackgroundColor:[UIColor redColor]];

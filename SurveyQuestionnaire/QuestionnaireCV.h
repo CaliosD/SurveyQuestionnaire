@@ -18,6 +18,9 @@
 @property (nonatomic, strong) NSMutableArray *questions;
 @property (nonatomic, assign) id<QuestionnaireCVDelegate> cvDelegate;
 @property (nonatomic, assign) float itemHeight;
+/**
+ *  Used only by iPad for getting answer array.
+ */
 @property (nonatomic, strong) NSMutableArray *answers;
 
 @end

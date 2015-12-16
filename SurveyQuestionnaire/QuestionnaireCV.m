@@ -115,7 +115,7 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
     SingleQuestionModel *question = (SingleQuestionModel *)[_questions objectAtIndex:indexPath.section];
     NSString *option = [[question.options objectAtIndex:indexPath.row] optionContent];
     CGSize size = [option boundingRectWithSize:CGSizeMake(self.frame.size.width - 20 - 12 * 3, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.f]} context:nil].size;
-    return isiPhone ? CGSizeMake([[UIScreen mainScreen] bounds].size.width, _itemHeight) : CGSizeMake(1024, size.height + 12 * 2);
+    return isiPhone ? CGSizeMake([[UIScreen mainScreen] bounds].size.width, _itemHeight) : CGSizeMake([[UIScreen mainScreen] bounds].size.width, size.height + 12 * 2);
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -125,7 +125,7 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
         header = (QuestionCVHeader *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:QuestionCVHeaderIdentifier forIndexPath:indexPath];
 
         SingleQuestionModel *question = (SingleQuestionModel *)[_questions objectAtIndex:indexPath.section];
-        [(QuestionCVHeader *)header setQuestion:question.question andType:question.questionType];
+        [(QuestionCVHeader *)header setQuestion:question.question andType:question.questionType currentIndex:indexPath.section total:_questions.count];
     }
     
     return header;
@@ -136,7 +136,7 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
     SingleQuestionModel *question = (SingleQuestionModel *)[_questions objectAtIndex:section];
     CGSize size = [question.question boundingRectWithSize:CGSizeMake(self.frame.size.width - 50 - 12 * 3, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.f]} context:nil].size;
 
-    return CGSizeMake(self.frame.size.width, size.height + 12 * 2);
+    return CGSizeMake(self.frame.size.width, size.height + 12 * 3 + 15);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -149,20 +149,41 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
         [_questions replaceObjectAtIndex:indexPath.section withObject:model];
         
         
-        if (model.questionType == QuestionType_SingleOption) {
-            // TODO.
-            
+        if (model.questionType == QuestionType_MultipleOptions) {
+            if (option.isSelected) {
+                [[_answers objectAtIndex:indexPath.section] addObject:[NSNumber numberWithInteger:indexPath.row]];
+            }
+            else{
+                [[_answers objectAtIndex:indexPath.section] removeObject:[NSNumber numberWithInteger:indexPath.row]];
+            }
             
             [collectionView reloadItemsAtIndexPaths:@[indexPath]];
 
         }
-        
-        
-        
-        
-        
-        
-        
+        else if (model.questionType == QuestionType_SingleOption){
+            if (option.isSelected) {
+                if ([[_answers objectAtIndex:indexPath.section] count] > 0) {
+                    NSIndexPath *oldIndex = [NSIndexPath indexPathForRow:[_answers[indexPath.section][0] integerValue] inSection:indexPath.section];
+                    OptionModel *o = [model.options objectAtIndex:[_answers[indexPath.section][0] integerValue]];
+                    o.isSelected = NO;
+                    [model.options replaceObjectAtIndex:[_answers[indexPath.section][0] integerValue] withObject:o];
+                    [_questions replaceObjectAtIndex:indexPath.section withObject:model];
+                    
+                    [[_answers objectAtIndex:indexPath.section] removeAllObjects];
+                    [[_answers objectAtIndex:indexPath.section] addObject:[NSNumber numberWithInteger:indexPath.row]];
+                    [collectionView reloadItemsAtIndexPaths:@[indexPath, oldIndex]];
+                }
+                else{
+                    [[_answers objectAtIndex:indexPath.section] removeAllObjects];
+                    [[_answers objectAtIndex:indexPath.section] addObject:[NSNumber numberWithInteger:indexPath.row]];
+                    [collectionView reloadItemsAtIndexPaths:@[indexPath]];
+                }
+            }
+            else{
+                [[_answers objectAtIndex:indexPath.section] removeObject:[NSNumber numberWithInteger:indexPath.row]];
+                [collectionView reloadItemsAtIndexPaths:@[indexPath]];
+            }
+        }        
     }
 }
 

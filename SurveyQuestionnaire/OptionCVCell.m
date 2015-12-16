@@ -36,12 +36,20 @@ NSInteger const CheckBtnSize = 20;
         _optionLabel = [UILabel newAutoLayoutView];
         _optionLabel.font = [UIFont systemFontOfSize:14.f];
         _optionLabel.numberOfLines = 0;
-        _optionLabel.preferredMaxLayoutWidth = self.frame.size.width - CheckBtnSize;
+        _optionLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        _optionLabel.preferredMaxLayoutWidth = 1024 - CheckBtnSize - 12 * 2;
         
         [self.contentView addSubview:_optionCheckLabel];
         [self.contentView addSubview:_optionLabel];
     }
     return self;
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    _optionLabel.preferredMaxLayoutWidth = 1024 - CheckBtnSize - 12 * 2;
+    [super layoutSubviews];
 }
 
 - (void)updateConstraints
@@ -51,7 +59,7 @@ NSInteger const CheckBtnSize = 20;
         [_optionCheckLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:12];
         [_optionCheckLabel autoSetDimensionsToSize:CGSizeMake(CheckBtnSize, CheckBtnSize)];
         
-        [_optionLabel autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(15, 12 * 2 + CheckBtnSize, 12, 12) excludingEdge:ALEdgeBottom];
+        [_optionLabel autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(12, 12 * 2 + CheckBtnSize, 12, 12) excludingEdge:ALEdgeBottom];
         [_optionLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:12];
         
         self.didSetupConstraints = YES;
