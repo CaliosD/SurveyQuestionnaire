@@ -38,7 +38,7 @@
                                        @"options" : @[
                                                        @{
                                                            @"optionContent" : @"Q1：男",
-                                                           @"isSelected" : @NO
+                                                           @"isSelected" : @YES
                                                        },
                                                        @{
                                                            @"optionContent" : @"Q2：女",
@@ -56,11 +56,11 @@
                                                    },
                                                @{
                                                    @"optionContent" : @"Q2：自主创业",
-                                                   @"isSelected" : @NO
+                                                   @"isSelected" : @YES
                                                    },
                                                @{
                                                    @"optionContent" : @"Q3：考研",
-                                                   @"isSelected" : @NO
+                                                   @"isSelected" : @YES
                                                    },
                                                @{
                                                    @"optionContent" : @"Q4：出国",
@@ -82,7 +82,7 @@
                                                    },
                                                @{
                                                    @"optionContent" : @"Q2: 通过直接沟通荣招聘者记住自己",
-                                                   @"isSelected" : @0
+                                                   @"isSelected" : @YES
                                                    },
                                                @{
                                                    @"optionContent" : @"Q3: 面试时在着装形象仪表方面下功夫",
@@ -90,11 +90,11 @@
                                                    },
                                                @{
                                                    @"optionContent" : @"Q4: 请有信誉威望的人推荐自己",
-                                                   @"isSelected" : @0
+                                                   @"isSelected" : @YES
                                                    },
                                                @{
                                                    @"optionContent" : @"Q5：事先充分了解单位，表示自己有充分的兴趣和准备 Q5：事先充分了解单位，表示自己有充分的兴趣和准备 Q5：事先充分了解单位，表示自己有充分的兴趣和准备",
-                                                   @"isSelected" : @0
+                                                   @"isSelected" : @YES
                                                    },
                                                @{
                                                    @"optionContent" : @"Q6: 突出自己的特长，表示自己完全能胜任招聘岗位的需求",
@@ -120,7 +120,7 @@
                                                    },
                                                @{
                                                    @"optionContent" : @"Q2：女",
-                                                   @"isSelected" : @NO
+                                                   @"isSelected" : @YES
                                                    },
                                                ]
                                        },
@@ -142,7 +142,7 @@
                                                    },
                                                @{
                                                    @"optionContent" : @"Q4：出国",
-                                                   @"isSelected" : @0
+                                                   @"isSelected" : @YES
                                                    },
                                                @{
                                                    @"optionContent" : @"Q5：暂不就业",
@@ -184,7 +184,7 @@
                                                    },
                                                @{
                                                    @"optionContent" : @"Q8: 突出自己的性格，表现自己能够和单位同事相处愉快",
-                                                   @"isSelected" : @0
+                                                   @"isSelected" : @YES
                                                    },
                                                ]
                                        }

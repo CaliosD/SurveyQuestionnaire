@@ -112,10 +112,17 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    SingleQuestionModel *question = (SingleQuestionModel *)[_questions objectAtIndex:indexPath.section];
-    NSString *option = [[question.options objectAtIndex:indexPath.row] optionContent];
-    CGSize size = [option boundingRectWithSize:CGSizeMake(self.frame.size.width - 20 - 12 * 3, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.f]} context:nil].size;
-    return isiPhone ? CGSizeMake([[UIScreen mainScreen] bounds].size.width, _itemHeight) : CGSizeMake([[UIScreen mainScreen] bounds].size.width, size.height + 12 * 2);
+    CGFloat height = 0;
+    if (isiPad) {
+        SingleQuestionModel *question = (SingleQuestionModel *)[_questions objectAtIndex:indexPath.section];
+        NSString *option = [[question.options objectAtIndex:indexPath.item] optionContent];
+        CGSize size = [option boundingRectWithSize:CGSizeMake(self.frame.size.width - 20 - 12 * 3, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.f]} context:nil].size;
+        height = size.height + 12 * 2;
+    }
+    else{
+        height = _itemHeight;
+    }
+    return CGSizeMake([[UIScreen mainScreen] bounds].size.width, height);
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -123,20 +130,29 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
     UICollectionReusableView *header = nil;
     if (isiPad && _questions && _questions.count > 0) {
         header = (QuestionCVHeader *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:QuestionCVHeaderIdentifier forIndexPath:indexPath];
-
+        
         SingleQuestionModel *question = (SingleQuestionModel *)[_questions objectAtIndex:indexPath.section];
         [(QuestionCVHeader *)header setQuestion:question.question andType:question.questionType currentIndex:indexPath.section total:_questions.count];
     }
-    
+    else{
+        header = [[UICollectionReusableView alloc] initWithFrame:CGRectZero];
+    }
     return header;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    SingleQuestionModel *question = (SingleQuestionModel *)[_questions objectAtIndex:section];
-    CGSize size = [question.question boundingRectWithSize:CGSizeMake(self.frame.size.width - 50 - 12 * 3, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.f]} context:nil].size;
-
-    return CGSizeMake(self.frame.size.width, size.height + 12 * 3 + 15);
+    CGSize headerSize;
+    if (isiPad) {
+        SingleQuestionModel *question = (SingleQuestionModel *)[_questions objectAtIndex:section];
+        CGSize size = [question.question boundingRectWithSize:CGSizeMake(self.frame.size.width - 50 - 12 * 3, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.f]} context:nil].size;
+        headerSize = CGSizeMake(self.frame.size.width, size.height + 12 * 3 + 15);
+    }
+    else{
+        headerSize = CGSizeZero;
+    }
+    
+    return headerSize;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath

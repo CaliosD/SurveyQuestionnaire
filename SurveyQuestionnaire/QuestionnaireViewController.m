@@ -14,6 +14,8 @@
 
 #import "QuestionnaireModel.h"
 #import "AnswersheetModel.h"
+#import "SingleQuestionModel.h"
+#import "OptionModel.h"
 
 static NSInteger QuestionnaireNotDoneAlertTag = 999;
 static NSInteger QuestionnaireDoneAlertTag = 1000;
@@ -61,6 +63,8 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
     NSArray *answers = dict[@"answers"];
     
     [self.answersheet replaceObjectAtIndex:_currentItemIndex withObject:answers];
+    
+    NSLog(@"========= %@",self.answersheet);
     [self updateSubmitButton];
 }
 
@@ -232,12 +236,12 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
 {
     if ([self isQuestionnaireDone]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否立即提交问卷？" delegate:self cancelButtonTitle:@"稍后提交" otherButtonTitles:@"确定", nil];
-        alert.tag = QuestionnaireNotDoneAlertTag;
+        alert.tag = QuestionnaireDoneAlertTag;
         [alert show];
     }
     else{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"需要回答所有问题才能提交问卷" delegate:self cancelButtonTitle:@"查看答题卡" otherButtonTitles:@"确定", nil];
-        alert.tag = QuestionnaireDoneAlertTag;
+        alert.tag = QuestionnaireNotDoneAlertTag;
         [alert show];
     }
 }
@@ -291,10 +295,7 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
     NSDictionary *model = [[MockData sharedData] questionnaire];
     _questionnaire = [QuestionnaireModel objectWithKeyValues:model];
     
-    for (int i = 0; i < _questionnaire.questions.count; i++) {
-        NSMutableArray *arr = [NSMutableArray array];
-        [self.answersheet addObject:arr];
-    }
+    self.answersheet = [NSMutableArray arrayWithArray:[self createAnswersheetWithQuestionnaire:_questionnaire]];
     
     if (isiPhone) {
         [self.titleView configureTitleViewWithText:_questionnaire.questionnaireTitle totalPage:_questionnaire.questions.count];
@@ -306,6 +307,24 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
     
     self.questionCV.questions = [NSMutableArray arrayWithArray:_questionnaire.questions];
     [self.questionCV reloadData];
+}
+
+- (NSArray *)createAnswersheetWithQuestionnaire:(QuestionnaireModel *)question
+{
+    NSMutableArray *answerResult = [NSMutableArray array];
+    
+    for (int i = 0; i < question.questions.count; i++) {
+        SingleQuestionModel *model = [question.questions objectAtIndex:i];
+        NSMutableArray *arr = [NSMutableArray array];
+        for (OptionModel *o in model.options) {
+            if (o.isSelected) {
+                NSInteger index = [model.options indexOfObject:o];
+                [arr addObject:[NSNumber numberWithInteger:index]];
+            }
+        }
+        [answerResult addObject:arr];
+    }
+    return answerResult;
 }
 
 #pragma mark - QuestionnaireCVDelegate
@@ -320,18 +339,22 @@ static void *QuestionnaireViewControllerAnswerArrayObservationContext = &Questio
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 1) {
-        // submit and network request
-    }
-    else{
-        if (alertView.tag == QuestionnaireDoneAlertTag) {
-            [self answerSheetItemPressed];
+    if (alertView.tag == QuestionnaireDoneAlertTag) {
+        if (buttonIndex == 1) {
+            NSArray *answerList = isiPhone ? _answersheet : _questionCV.answers;
+            
+            NSLog(@"<><><><> post answer%@",answerList);
+
+//            [[NSNotificationCenter defaultCenter] postNotificationName:QuestionnaireAnswerPostNotification object:self userInfo:@{@"paperId":_paperId,@"answerList":answerList}];
         }
-        else if (alertView.tag == QuestionnaireNotDoneAlertTag){
-            // submit later
+    }
+    else if (alertView.tag == QuestionnaireNotDoneAlertTag){
+        if (buttonIndex == 0) {
+            [self answerSheetItemPressed];
         }
     }
 }
+
 
 #pragma mark - Private
 

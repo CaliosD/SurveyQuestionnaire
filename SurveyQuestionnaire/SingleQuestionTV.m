@@ -49,6 +49,8 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
             [_answerArray addObject:[NSNumber numberWithInteger:i]];
         }
     }
+    
+    NSLog(@"-------- %@",_answerArray);
 }
 
 #pragma mark - UITableViewDataSource
@@ -137,6 +139,7 @@ static NSString *SingleQuestionTVCellIdentifier = @"OptionCellIdentifier";
         }
     }
     
+    NSLog(@"<><><><  %@",_answerArray);
     NSArray *param = [NSArray arrayWithArray:_answerArray];
     [[NSNotificationCenter defaultCenter] postNotificationName:QuestionnaireAnswersChangeNotification object:nil userInfo:@{@"answers": param}];
 }
